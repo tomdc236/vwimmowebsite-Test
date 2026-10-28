@@ -54,3 +54,25 @@
 .newest .price{font-size:16px;margin:8px 0}
 .newest .details-link{font-size:13px}
 }
+
+/* Goedgekeurde blauwe vakken onder het bestaande linkervak. */
+.about>.left-column{background:transparent;padding:0;line-height:normal;min-width:0}
+.why-box{background:#e8f3fc;border-radius:10px;padding:30px;line-height:1.7}
+.callouts{display:grid;gap:16px;margin-top:18px}
+.callout{display:grid;grid-template-columns:70px minmax(0,1fr);gap:20px;align-items:center;width:100%;border:0;border-radius:10px;padding:26px 24px;background:#61b5d9;color:#fff;text-align:left;line-height:1.3;font-size:21px;cursor:pointer}
+.callout strong{font-weight:750}.callout-title{font-size:1.25em}
+.callout-icon{display:flex;align-items:center;justify-content:center;color:#fff}
+.callout-icon svg{display:block;width:100%;height:auto}
+.euro-icon{font:750 90px/1 Arial,Helvetica,sans-serif}
+.callout:hover{background:#55acd2}
+#callout-dialog{border:0;border-radius:12px;padding:28px;max-width:min(520px,92vw);color:#143249;line-height:1.5}
+#callout-dialog::backdrop{background:#14324988}
+#callout-dialog h2{font-size:25px}
+@media(max-width:800px){.callout{grid-template-columns:45px minmax(0,1fr);gap:12px;padding:20px 15px;font-size:17px}.euro-icon{font-size:64px}}
+@media(max-width:480px){
+.why-box{padding:14px;font-size:14px}
+.callouts{gap:9px;margin-top:10px}
+.callout{grid-template-columns:32px minmax(0,1fr);gap:8px;padding:16px 10px;font-size:clamp(11px,3.15vw,15px);border-radius:6px;min-height:82px}
+.callout-title{font-size:1.2em}
+.euro-icon{font-size:46px}
+}
