@@ -82,3 +82,56 @@
 .header nav a{font-size:21px}
 @media(max-width:800px){.header nav{gap:24px}.header nav a{font-size:19px}}
 @media(max-width:480px){.header nav{gap:16px;justify-content:flex-end}.header nav a{font-size:16px}.favorite-symbol{font-size:22px}}
+
+/* Originele SVG uitsluitend groter weergegeven, zonder beeldbewerking. */
+.brand{width:320px;flex:0 1 320px}
+.brand img{display:block;width:100%;height:auto;max-height:none;object-fit:contain}
+.information-page{max-width:920px}
+.info-card{padding:36px;margin-bottom:24px;border-radius:14px;background:#fff;line-height:1.6}
+.info-card h1{font-size:42px;line-height:1.15;margin:0 0 16px}
+.info-card h2{font-size:29px;line-height:1.2;margin:0 0 12px}
+.info-card p{margin:0 0 20px}
+.info-card .intro{font-size:21px}
+.info-highlight{padding:20px;background:#e8f6fc;color:#0086c1;border-radius:10px;font-weight:750;font-size:23px}
+.info-feature{display:grid;grid-template-columns:64px minmax(0,1fr);gap:18px;margin:24px 0}
+.info-feature h2{font-size:23px;margin-bottom:6px}
+.info-feature p{margin:0}
+.info-icon{display:flex;align-items:center;justify-content:center;width:64px;height:64px;background:#e8f6fc;color:#0086c1;border-radius:50%;font-size:36px}
+#contact-form{display:flex;flex-direction:column;gap:8px}
+#contact-form>label{font-size:18px;font-weight:700;margin-top:12px}
+#contact-form>input,#contact-form>textarea{width:100%;font:inherit;border:1px solid #bdcfdd;border-radius:6px;background:#fff;color:#143249;padding:12px;min-height:49px}
+#contact-form>textarea{resize:vertical;min-height:150px}
+#contact-form input:focus,#contact-form textarea:focus{outline:2px solid #61b5d9;outline-offset:2px}
+.checkbox-label{display:flex;gap:12px;align-items:flex-start;line-height:1.5}
+.checkbox-label input{flex:0 0 22px;width:22px;height:22px;margin:3px 0 0;accent-color:#0086c1}
+#contact-form .checkbox-label{font-weight:400}
+#contact-form .consent{margin-top:14px}
+.interest{border:0;padding:0;margin:18px 0 8px}
+.interest legend{font-weight:700;padding:0;margin-bottom:10px}
+.interest-options{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.text-link{border:0;background:none;color:#0086c1;text-decoration:underline;cursor:pointer;padding:0;font:inherit}
+.send-button{display:block;width:100%;margin-top:8px;background:#61b5d9;font-size:21px}
+.send-button:disabled{cursor:default;opacity:.8}
+#contact-form .form-note{font-size:15px;line-height:1.5;margin:18px 0 0;color:#526979}
+#contact-form .required-note{font-size:14px;color:#526979;margin:4px 0 0}
+#policy-dialog{max-width:min(520px,92vw);border:0;border-radius:12px;padding:28px;line-height:1.5;color:#143249}
+#policy-dialog::backdrop{background:#14324988}
+@media(max-width:800px){.brand{width:260px;flex-basis:260px}}
+@media(max-width:480px){
+.brand{width:180px;flex:0 1 180px;min-width:0}
+.header nav{flex:0 0 auto;gap:12px}
+.header{gap:8px}
+.information-page{width:94%;padding-top:18px}
+.info-card{padding:20px 16px;margin-bottom:18px}
+.info-card h1{font-size:31px}
+.info-card h2{font-size:25px}
+.info-card .intro{font-size:17px}
+.info-highlight{font-size:18px;padding:14px}
+.info-feature{grid-template-columns:42px minmax(0,1fr);gap:12px}
+.info-icon{width:42px;height:42px;font-size:28px}
+.info-feature h2{font-size:18px}
+.info-feature p,.info-card>p{font-size:16px}
+#contact-form>label{font-size:17px}
+#contact-form .checkbox-label{font-size:15px}
+.send-button{font-size:19px}
+}
