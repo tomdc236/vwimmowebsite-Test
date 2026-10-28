@@ -186,75 +186,31 @@ header nav a{font-size:11px!important}
 .hero h1,.buy-hero.hero h1{font-size:52px!important}
 .hero p,.buy-hero.hero p{font-size:19px!important}
 
-/* Iets grotere categorieknoppen in de hoofding; behoud één rij. */
-.hero .tabs button,.buy-hero.hero .tabs button{font-size:15px!important;font-weight:600!important;padding:15px 19px!important;min-height:48px!important;white-space:nowrap!important}
-.hero .tabs{gap:9px!important;flex-wrap:nowrap!important}
-@media(max-width:850px){.hero .tabs button,.buy-hero.hero .tabs button{font-size:clamp(10px,1.55vw,15px)!important;padding:12px clamp(7px,1.8vw,17px)!important;min-height:42px!important}.hero .tabs{gap:5px!important}}
-
-/* Leesbaarheid 5 procent groter */
-html{font-size:16.8px!important}
-header nav a{font-size:10.5px!important}
-.hero h1,.buy-hero.hero h1{font-size:54.6px!important}
-.hero p,.buy-hero.hero p{font-size:19.95px!important}
-.hero .tabs button,.buy-hero.hero .tabs button{font-size:14.7px!important}
-.section-heading h2{font-size:31.5px!important}
-.property-body strong{font-size:16.8px!important}
+/* Eenduidige, gecontroleerde maatvoering voor de bestaande 790px-layout. */
+html{font-size:17.6px!important}
+header{gap:8px!important;padding:0 2.2%!important}
+header .brand{transform:none!important;margin:0!important;flex:0 0 177px!important;gap:0!important}
+header .brand img{display:block!important;width:177px!important;height:auto!important;max-height:67px!important;object-fit:contain!important}
+header nav{display:flex!important;gap:9px!important;min-width:0!important;flex:1 1 auto!important;justify-content:center!important}
+header nav a{font-size:12.5px!important;white-space:nowrap!important;padding:14px 0!important}
+header .login{font-size:13px!important;padding:12px 10px!important;flex-shrink:0!important}
+.hero h1,.buy-hero.hero h1{font-size:54px!important}
+.hero p,.buy-hero.hero p{font-size:21px!important}
+.hero .tabs,.buy-hero.hero .tabs{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:3px!important;width:100%!important}
+.hero .tabs button,.buy-hero.hero .tabs button{font-size:18px!important;line-height:1.1!important;white-space:nowrap!important;overflow-wrap:normal!important;height:42px!important;min-height:42px!important;padding:6px 1px!important}
+.search-strip .search input,.search-strip .search select,.search-strip .search .blue{font-size:17px!important}
+.section-heading h2{font-size:33px!important}
+.view-all{font-size:16px!important}
+.property-body strong{font-size:17px!important}
+.city{font-size:14.5px!important}
 .price-line{font-size:21px!important}
-
-/* Goedgekeurde extra vergroting: tekst 5%, navigatieknoppen 7%. */
-html{font-size:17.64px!important}
-header nav a{font-size:11.025px!important}
-.hero h1,.buy-hero.hero h1{font-size:57.33px!important}
-.hero p,.buy-hero.hero p{font-size:20.9475px!important}
-.hero .tabs button,.buy-hero.hero .tabs button{font-size:15.729px!important;min-height:49.22px!important}
-.section-heading h2{font-size:33.075px!important}
-.property-body strong{font-size:17.64px!important}
-.price-line{font-size:22.05px!important}
-.search-strip .search input,.search-strip .search select,.search-strip .search .blue{font-size:17.64px!important}
-
-/* Logo in hoofding 7% groter; afbeelding zelf wordt afzonderlijk vervangen. */
-header .brand{transform:scale(1.07);transform-origin:left center;margin-right:12px!important}
-
-/* Zeven gevraagde aanpassingen: extra 10% leesbaarheid en 15% navigatie. */
-header nav a{font-size:12.68px!important}
-header .login{font-size:14.5px!important;padding:13px 15px!important}
-.hero h1,.buy-hero.hero h1{font-size:63.06px!important}
-.hero p,.buy-hero.hero p{font-size:23.04px!important}
-.section-heading h2{font-size:36.38px!important}
-.property-body strong{font-size:19.4px!important}
-.city{font-size:16.17px!important}
-.price-line{font-size:24.26px!important}
-.specs{font-size:15.02px!important}
-.services h3{font-size:20.79px!important}
-.services p{font-size:16.17px!important}
-.search-strip .search input,.search-strip .search select,.search-strip .search .blue{font-size:19.4px!important}
-.hero .tabs,.buy-hero.hero .tabs{grid-template-columns:repeat(5,minmax(0,1fr))!important}
-.hero .tabs button,.buy-hero.hero .tabs button{font-size:19px!important;min-height:57px!important;line-height:1.1!important;white-space:nowrap!important;overflow-wrap:normal!important}
+.property .specs{font-size:12.5px!important;white-space:nowrap!important;letter-spacing:-.3px!important}
+.services h3{font-size:19px!important}
+.services p{font-size:14.5px!important}
+.why h2,.office h2{font-size:27px!important}
+.why li{font-size:16px!important}
 .hero-fav-link{position:absolute;right:3.7%;top:115px;display:flex;align-items:center;justify-content:center;width:52px;height:52px;color:white;font-size:42px;text-decoration:none;text-shadow:0 2px 6px #0009;z-index:5}
 .hero-fav-link.has-favorites{color:#e51f36}
-
-/* Gerichte correctie: knophoogte en breedte ongewijzigd; alleen tekst groter. */
-.hero .tabs button,.buy-hero.hero .tabs button{font-size:19px!important;min-height:42px!important;height:42px!important;padding:6px 1px!important;white-space:nowrap!important}
-.hero .tabs,.buy-hero.hero .tabs{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:3px!important}
-header nav{gap:8px!important}
-header nav a{font-size:13.2px!important}
-header .login{font-size:13px!important;padding:12px 10px!important}
-.property .specs{font-size:13px!important;white-space:nowrap!important;letter-spacing:-.3px!important}
-
-/* Definitieve correctie: behoud vaste 790px-indeling; tekst zonder overlap. */
-header{gap:8px!important}
-header nav{gap:7px!important;min-width:0!important}
-header nav a{font-size:12px!important;white-space:nowrap!important}
-header .login{font-size:12.5px!important;padding:11px 10px!important}
-.hero .tabs,.buy-hero.hero .tabs{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:3px!important}
-.hero .tabs button,.buy-hero.hero .tabs button{height:42px!important;min-height:42px!important;padding:6px 1px!important;font-size:18px!important;white-space:nowrap!important;overflow-wrap:normal!important}
-.property .specs{font-size:13px!important;white-space:nowrap!important}
-
-/* Exacte aangeleverde logo-afbeelding, 15% groter dan de vorige logobreedte. */
-header .brand{transform:none!important;margin-right:0!important;gap:0!important}
-header .brand img{display:block!important;width:177px!important;height:auto!important;max-height:67px!important}
-header nav{gap:6px!important}
-header nav a{font-size:11.5px!important}
 </style></head><body><header><div class="brand"><img src="van-welden-origineel-logo.svg" alt="Van Welden Vastgoed" width="177" height="67" style="display:block;width:177px;height:auto;max-height:67px;object-fit:contain"></div><nav><a href="index.html">Home</a><a href="te-koop.html">Te koop</a><a href="te-huur.html">Te huur</a><a href="nieuwbouw.html">Nieuwbouw</a><a href="referenties.html">Referenties</a><a href="favorieten.html" class="active">Favorieten</a><a href="index.html#over">Over ons</a><a href="index.html#contact">Contact</a></nav><button class="login" type="button" onclick="alert('Inloggen wordt later gekoppeld.')">♙ Inloggen</button></header><section class="hero buy-hero"><h1>Favorieten</h1><p>Bekijk de panden die je met het hartje hebt bewaard.</p><div class="tabs"><button type="button" onclick="location.href='index.html'">Home</button><button type="button" onclick="location.href='te-koop.html'">Te koop</button><button type="button" onclick="location.href='te-huur.html'">Te huur</button><button type="button" onclick="location.href='nieuwbouw.html'">Nieuwbouw</button><button type="button" onclick="location.href='referenties.html'">Referenties</button></div></section><main class="content"><div class="result-bar"><strong id="count">0 panden gevonden</strong><span>Opgeslagen op dit toestel</span></div><div class="listing" id="listing"></div><p class="empty" id="empty">Je hebt nog geen favoriete panden. Tik op het hartje bij een pand om het hier te bewaren.</p><section class="services"><div><div class="service-icon">⌂</div><h3>Verkoop</h3><p>Wij begeleiden u van schatting tot sleuteloverdracht.</p></div><div><div class="service-icon">⚿</div><h3>Verhuur</h3><p>Een zorgeloze verhuur met de juiste huurder.</p></div><div><div class="service-icon">♜</div><h3>Nieuwbouw</h3><p>Ontdek onze nieuwe bouwprojecten.</p></div><div><div class="service-icon">♧</div><h3>Persoonlijke begeleiding</h3><p>Een vast aanspreekpunt en advies op maat.</p></div></section></main><footer>Van Welden Vastgoed — testwebsite. Geen echte pandpublicatie.</footer><script>
 (function(){
 const key='vanwelden-test-favorieten';
