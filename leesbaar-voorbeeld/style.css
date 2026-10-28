@@ -32,3 +32,25 @@
 .tabs{margin-top:18px;gap:3px}.tabs a{font-size:11px;padding:10px 0}
 }
 .services{grid-template-columns:repeat(4,minmax(0,1fr))}.services>div{min-width:0;overflow-wrap:anywhere}.services a{font-size:16px}@media(max-width:480px){.services a{font-size:13px}.services b{font-size:13px}}
+
+/* De drie recentste testpanden vervangen uitsluitend de kantoorafbeelding. */
+.about{align-items:start}
+.newest{min-width:0}
+.newest h2{margin:0 0 16px;font-size:28px;line-height:1.25}
+.newest-list{display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.about .newest .photo img{width:100%;height:auto;min-height:0;aspect-ratio:1.8;object-fit:cover;border-radius:0}
+.newest .body{padding:14px}
+.newest .body h3{font-size:20px;margin-bottom:8px}
+.newest .price{font-size:22px;margin:10px 0}
+.newest .specs{display:none}
+.newest .city{font-size:15px}
+.newest .details-link{margin-top:4px}
+@media(max-width:480px){
+.newest h2{font-size:21px;margin-bottom:12px}
+.newest-list{gap:12px}
+.newest .body{padding:10px}
+.newest .body h3{font-size:15px;overflow-wrap:normal}
+.newest .city{font-size:13px}
+.newest .price{font-size:16px;margin:8px 0}
+.newest .details-link{font-size:13px}
+}
