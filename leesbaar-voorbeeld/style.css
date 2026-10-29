@@ -135,3 +135,19 @@
 #contact-form .checkbox-label{font-size:15px}
 .send-button{font-size:19px}
 }
+
+/* Servicepagina's volgens de drie goedgekeurde voorbeelden. */
+.service-page .info-card{box-shadow:0 3px 18px #213c5005}
+.service-page h1{font-size:40px}
+.service-page .info-card h2{font-size:28px;margin-bottom:20px}
+.service-highlight{color:#35a7c8;font-weight:700}
+.service-symbol{display:inline-block;font-size:64px;line-height:1;vertical-align:middle;margin-right:14px;color:#35a7c8}
+.selling-points{padding-left:28px}.selling-points li{padding-left:8px;margin-bottom:14px}
+.mailbox-intro{text-align:center}.envelope{width:64px;height:48px;color:#35add6;margin:0 auto 14px}
+.mailbox-intro h2{font-weight:400}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 24px}
+#contact-form .field{display:flex;flex-direction:column;gap:7px;font-size:18px;font-weight:400;margin:10px 0 0;min-width:0}
+.field input,.field select{width:100%;min-width:0;font:inherit;border:1px solid #bdcfdd;border-radius:6px;background:white;color:#143249;padding:12px;min-height:49px}
+#contact-form h3{margin:22px 0 0;font-size:23px}
+.divided{border-top:1px solid #dfe7ed;padding-top:18px}
+#contact-form a,footer a{color:#0076aa;text-decoration:underline;overflow-wrap:anywhere}
+@media(max-width:600px){.service-page h1{font-size:30px}.service-page .info-card h2{font-size:24px}.service-symbol{font-size:46px;margin-right:6px}.form-grid{grid-template-columns:1fr;gap:6px}.interest-options{gap:12px 8px}.service-page .checkbox-label{font-size:15px}.service-page .field{font-size:17px!important}.header nav a{white-space:normal;text-align:right}}
