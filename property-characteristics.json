@@ -1,0 +1,436 @@
+[
+  {
+    "title": "Vertegenwoordiger",
+    "fields": [
+      {
+        "key": "representativeName",
+        "label": "Naam",
+        "kind": "text"
+      },
+      {
+        "key": "representativePhone",
+        "label": "GSM",
+        "kind": "text"
+      },
+      {
+        "key": "representativeEmail",
+        "label": "E-mail",
+        "kind": "text"
+      }
+    ]
+  },
+  {
+    "title": "Bebouwing",
+    "fields": [
+      {
+        "key": "propertyFloor",
+        "label": "Verdieping",
+        "kind": "text"
+      },
+      {
+        "key": "buildingStyle",
+        "label": "Bebouwing",
+        "kind": "selection"
+      },
+      {
+        "key": "constructionYear",
+        "label": "Bouwjaar",
+        "kind": "integer"
+      },
+      {
+        "key": "renovationYear",
+        "label": "Renovatiejaar",
+        "kind": "integer"
+      },
+      {
+        "key": "buildingCondition",
+        "label": "Algemene staat",
+        "kind": "selection"
+      },
+      {
+        "key": "availability",
+        "label": "Beschikbaar vanaf",
+        "kind": "text"
+      },
+      {
+        "key": "furnished",
+        "label": "Bemeubeld",
+        "kind": "selection"
+      },
+      {
+        "key": "petsAllowed",
+        "label": "Huisdieren toegestaan",
+        "kind": "selection"
+      },
+      {
+        "key": "gardenOrientation",
+        "label": "Oriëntatie tuin",
+        "kind": "selection"
+      },
+      {
+        "key": "electricalInstallation",
+        "label": "Elektriciteitscertificaat",
+        "kind": "selection"
+      },
+      {
+        "key": "elevator",
+        "label": "Lift",
+        "kind": "selection"
+      }
+    ]
+  },
+  {
+    "title": "Financiële info",
+    "fields": [
+      {
+        "key": "cadastralIncome",
+        "label": "Kadastraal inkomen (€)",
+        "kind": "decimal"
+      },
+      {
+        "key": "commonCharges",
+        "label": "Gemeenschappelijke kosten (€ per maand)",
+        "kind": "decimal"
+      },
+      {
+        "key": "rentalDeposit",
+        "label": "Huurwaarborg (€)",
+        "kind": "decimal"
+      },
+      {
+        "key": "vatApplicable",
+        "label": "BTW van toepassing",
+        "kind": "selection"
+      },
+      {
+        "key": "rentExcludesCharges",
+        "label": "Huurprijs exclusief lasten",
+        "kind": "selection"
+      }
+    ]
+  },
+  {
+    "title": "Comfort",
+    "fields": [
+      {
+        "key": "glazing",
+        "label": "Beglazing",
+        "kind": "selection"
+      },
+      {
+        "key": "kitchen",
+        "label": "Keuken",
+        "kind": "selection"
+      },
+      {
+        "key": "heating",
+        "label": "Verwarming",
+        "kind": "selection"
+      },
+      {
+        "key": "gasConnection",
+        "label": "Aardgas",
+        "kind": "selection"
+      },
+      {
+        "key": "electricityConnection",
+        "label": "Elektriciteit",
+        "kind": "selection"
+      },
+      {
+        "key": "internet",
+        "label": "Internet",
+        "kind": "selection"
+      },
+      {
+        "key": "intercom",
+        "label": "Parlofoon",
+        "kind": "selection"
+      },
+      {
+        "key": "sewerConnection",
+        "label": "Riolering",
+        "kind": "selection"
+      },
+      {
+        "key": "waterConnection",
+        "label": "Stadswater",
+        "kind": "selection"
+      },
+      {
+        "key": "telephoneConnection",
+        "label": "Telefoon",
+        "kind": "selection"
+      },
+      {
+        "key": "heatPump",
+        "label": "Warmtepomp",
+        "kind": "selection"
+      },
+      {
+        "key": "cableTv",
+        "label": "Distributie",
+        "kind": "selection"
+      },
+      {
+        "key": "solarPanels",
+        "label": "Zonnepanelen",
+        "kind": "selection"
+      },
+      {
+        "key": "insulation",
+        "label": "Isolatie",
+        "kind": "text"
+      },
+      {
+        "key": "ventilation",
+        "label": "Ventilatie",
+        "kind": "selection"
+      },
+      {
+        "key": "airConditioning",
+        "label": "Airconditioning",
+        "kind": "selection"
+      }
+    ]
+  },
+  {
+    "title": "Oppervlaktes en afmetingen",
+    "fields": [
+      {
+        "key": "plotArea",
+        "label": "Totale opp. grond (m²)",
+        "kind": "decimal"
+      },
+      {
+        "key": "livingArea",
+        "label": "Bewoonbare opp. (m²)",
+        "kind": "decimal"
+      },
+      {
+        "key": "gardenArea",
+        "label": "Tuinoppervlakte (m²)",
+        "kind": "decimal"
+      },
+      {
+        "key": "terraceArea",
+        "label": "Terrasoppervlakte (m²)",
+        "kind": "decimal"
+      }
+    ]
+  },
+  {
+    "title": "Indeling",
+    "fields": [
+      {
+        "key": "bedrooms",
+        "label": "Slaapkamers",
+        "kind": "integer"
+      },
+      {
+        "key": "bathrooms",
+        "label": "Badkamers",
+        "kind": "integer"
+      },
+      {
+        "key": "toilets",
+        "label": "Toiletten",
+        "kind": "integer"
+      },
+      {
+        "key": "livingRoom",
+        "label": "Woonkamer",
+        "kind": "selection"
+      },
+      {
+        "key": "diningRoom",
+        "label": "Eetkamer",
+        "kind": "selection"
+      },
+      {
+        "key": "storageRoom",
+        "label": "Berging",
+        "kind": "selection"
+      },
+      {
+        "key": "basement",
+        "label": "Kelder",
+        "kind": "selection"
+      },
+      {
+        "key": "attic",
+        "label": "Zolder",
+        "kind": "selection"
+      },
+      {
+        "key": "garage",
+        "label": "Garage",
+        "kind": "selection"
+      },
+      {
+        "key": "parkingSpaces",
+        "label": "Aantal parkeerplaatsen",
+        "kind": "integer"
+      },
+      {
+        "key": "terrace",
+        "label": "Terras",
+        "kind": "selection"
+      },
+      {
+        "key": "garden",
+        "label": "Tuin",
+        "kind": "selection"
+      },
+      {
+        "key": "balcony",
+        "label": "Balkon",
+        "kind": "selection"
+      },
+      {
+        "key": "dressing",
+        "label": "Dressing",
+        "kind": "selection"
+      },
+      {
+        "key": "veranda",
+        "label": "Veranda",
+        "kind": "selection"
+      },
+      {
+        "key": "livingRoomArea",
+        "label": "Oppervlakte woonkamer (m²)",
+        "kind": "decimal"
+      },
+      {
+        "key": "diningRoomArea",
+        "label": "Oppervlakte eetkamer (m²)",
+        "kind": "decimal"
+      },
+      {
+        "key": "kitchenArea",
+        "label": "Oppervlakte keuken (m²)",
+        "kind": "decimal"
+      },
+      {
+        "key": "showerCabins",
+        "label": "Aantal douchecabines",
+        "kind": "integer"
+      },
+      {
+        "key": "garageCount",
+        "label": "Aantal garages",
+        "kind": "integer"
+      }
+    ]
+  },
+  {
+    "title": "Ruimtelijke ordening",
+    "fields": [
+      {
+        "key": "floodSensitivityType",
+        "label": "Overstromingsgevoeligheid",
+        "kind": "selection"
+      },
+      {
+        "key": "designatedFloodArea",
+        "label": "Afgebakende zone",
+        "kind": "selection"
+      },
+      {
+        "key": "urbanDestination",
+        "label": "Stedenbouwkundige bestemming",
+        "kind": "text"
+      },
+      {
+        "key": "urbanViolationSummons",
+        "label": "Dagvaarding voor stedenbouwkundige overtreding",
+        "kind": "selection"
+      },
+      {
+        "key": "recoveryMeasure",
+        "label": "Rechterlijke of bestuurlijke herstelmaatregel",
+        "kind": "selection"
+      },
+      {
+        "key": "buildingPermit",
+        "label": "Bouwvergunning",
+        "kind": "selection"
+      },
+      {
+        "key": "subdivisionPermit",
+        "label": "Verkavelingsvergunning",
+        "kind": "selection"
+      },
+      {
+        "key": "preemptionRight",
+        "label": "Voorkooprecht",
+        "kind": "selection"
+      },
+      {
+        "key": "protectedHeritage",
+        "label": "Beschermd erfgoed",
+        "kind": "selection"
+      },
+      {
+        "key": "mandatoryRenovation",
+        "label": "Renovatieplicht",
+        "kind": "selection"
+      },
+      {
+        "key": "flemishMeasuresRegisterConsulted",
+        "label": "Maatregelenregister",
+        "kind": "selection"
+      },
+      {
+        "key": "planningRegisterDestination",
+        "label": "Bestemming volgens plannenregister",
+        "kind": "text"
+      },
+      {
+        "key": "urbanPlanning",
+        "label": "Stedenbouwkundige informatie",
+        "kind": "text"
+      },
+      {
+        "key": "floodPScore",
+        "label": "Overstroming P-score",
+        "kind": "selection"
+      },
+      {
+        "key": "floodGScore",
+        "label": "Overstroming G-score",
+        "kind": "selection"
+      },
+      {
+        "key": "asBuiltCertificate",
+        "label": "As-builtattest",
+        "kind": "selection"
+      }
+    ]
+  },
+  {
+    "title": "EPC gegevens",
+    "fields": [
+      {
+        "key": "epcScore",
+        "label": "EPC (kWh/m²/jaar)",
+        "kind": "decimal"
+      },
+      {
+        "key": "epcCertificateCode",
+        "label": "EPC ref.",
+        "kind": "text"
+      },
+      {
+        "key": "epcLabel",
+        "label": "EPC-label",
+        "kind": "selection"
+      }
+    ]
+  },
+  {
+    "title": "Downloads",
+    "fields": []
+  }
+]

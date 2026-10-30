@@ -1,10 +1,10 @@
 const assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs');
 const code=fs.readFileSync(__dirname+'/test-listings.js','utf8');
-class Node { constructor(tag='DIV'){this.tagName=tag.toUpperCase();this.children=[];this.style={};this.classList={toggle(){}};this.isConnected=true;this.value='';this.textContent='';} append(...a){this.children.push(...a)} replaceChildren(...a){this.children=a} setAttribute(){} addEventListener(){} scrollBy(){} }
+class Node { constructor(tag='DIV'){this.tagName=tag.toUpperCase();this.children=[];this.style={};this.classList={toggle(){}};this.isConnected=true;this.value='';this.textContent='';} append(...a){this.children.push(...a)} prepend(...a){this.children.unshift(...a)} replaceChildren(...a){this.children=a} setAttribute(){} addEventListener(){} scrollBy(){} }
 async function run(page,data,query='') {
  const nodes={listing:new Node(), 'publication-message':new Node(),count:new Node(),empty:new Node(),query:new Node('input')};nodes.query.value=query;
  const storage={};let interval;
- const ctx={document:{hidden:false,getElementById:id=>nodes[id],createElement:tag=>new Node(tag),querySelector:()=>null,querySelectorAll:()=>[]},location:{pathname:'/'+page,search:'?ref=TEST-0001'},localStorage:{getItem:k=>storage[k]||null,setItem:(k,v)=>storage[k]=v,removeItem:k=>delete storage[k]},window:{addEventListener(){}},URL:{createObjectURL:()=>'',revokeObjectURL(){}},URLSearchParams,queueMicrotask,fetch:async()=>({ok:true,json:async()=>data}),setInterval:cb=>interval=cb};
+ const ctx={document:{hidden:false,getElementById:id=>nodes[id],createElement:tag=>new Node(tag),createTextNode:text=>Object.assign(new Node('#text'),{textContent:text}),querySelector:()=>null,querySelectorAll:()=>[]},location:{pathname:'/'+page,search:'?ref=TEST-0001'},localStorage:{getItem:k=>storage[k]||null,setItem:(k,v)=>storage[k]=v,removeItem:k=>delete storage[k]},window:{addEventListener(){}},URL:{createObjectURL:()=>'',revokeObjectURL(){}},URLSearchParams,queueMicrotask,fetch:async()=>({ok:true,json:async()=>data}),setInterval:cb=>interval=cb};
  vm.runInNewContext(code,ctx);await new Promise(setImmediate);return {nodes,storage,interval};
 }
 const row={organization_id:'org',property_ref:'TEST-0001',title:'<img src=x onerror=alert(1)>',address:'Teststraat Gent',price:'248.000',status:'Te koop',features:{referenceNumber:'VI.TK.00001',propertyType:'Villa'},photo_paths:[],description:'Openbaar'};
@@ -14,12 +14,18 @@ const row={organization_id:'org',property_ref:'TEST-0001',title:'<img src=x oner
  r=await run('te-huur.html',[row]);assert.equal(r.nodes.listing.children.length,0);
  r=await run('index.html',[row],'nietgevonden');assert.equal(r.nodes.listing.children.length,0);
  r=await run('pand.html',[]);assert.match(r.nodes['publication-message'].textContent,/niet \(meer\)/);
- r=await run('pand.html',[row]);assert.equal(r.nodes.listing.children[0].textContent,row.title);
+ r=await run('pand.html',[row]);assert.equal(r.nodes.listing.children.find(n=>n.tagName==='H1').textContent,row.title);
  r=await run('favorieten.html',[row]);assert.equal(r.nodes.listing.children.length,0);
  for (const [status,label] of [['Verkocht','Verkocht'],['Verhuurd','Verhuurd'],['Onder optie','In optie'],['In optie','In optie']]) {
   r=await run('index.html',[{...row,status}]);
   const ribbon=r.nodes.listing.children[0].children[0].children.find(n=>n.className==='property-status-ribbon');assert.equal(ribbon.textContent,label);
  }
  r=await run('index.html',[row]);assert.equal(r.nodes.listing.children[0].children[0].children.filter(n=>n.className==='property-status-ribbon').length,0);
- console.log('12 website behavior checks passed');
+ const featureRow={...row,price:'',features:{representativeName:'Jan Test',petsAllowed:'Neen',roomLayoutV1:JSON.stringify([{floor:'Verdieping 2',name:'Keuken',area:'7,5'}]),epcLabel:'C',constructionYear:'  ',urbanViolationSummons:'Niet ingegeven'},document_paths:[]};
+ r=await run('pand.html',[featureRow]);
+ const sections=r.nodes.listing.children.find(n=>n.className==='property-characteristics');
+ const titles=sections.children.filter(n=>n.tagName==='DETAILS').map(n=>n.children[0].textContent);
+ assert(titles.includes('Vertegenwoordiger'));assert(titles.includes('Bebouwing'));assert(titles.includes('Indeling'));assert(titles.includes('EPC gegevens'));assert(!titles.includes('Financiële info'));assert(!titles.includes('Ruimtelijke ordening'));assert(!titles.includes('Downloads'));
+ const allText=n=>[n.textContent,...n.children.map(allText)].join(' ');assert.match(allText(sections),/Neen/);assert.match(allText(sections),/Verdieping 2/);assert.match(allText(sections),/7,5 m²/);
+ console.log('Website checks passed: status ribbons, sections, rooms, explicit Neen, empty suppression and safe text rendering');
 })().catch(e=>{console.error(e);process.exitCode=1});

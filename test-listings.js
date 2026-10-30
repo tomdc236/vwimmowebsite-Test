@@ -60,24 +60,93 @@
     star.onclick = () => { const ids = favorites(); saveFavorites(ids.includes(id(p)) ? ids.filter(v => v !== id(p)) : [...ids,id(p)]); render(); };
     visual.append(star); card.append(visual);
     const body = el('div', null, 'property-body'), link = el('a', p.title); link.href = `pand.html?ref=${encodeURIComponent(p.property_ref)}`;
-    body.append(link, el('div', p.address, 'city'), el('div', p.price.startsWith('€') ? p.price : '€ ' + p.price, 'price-line'), el('div', displayRef(p.features.referenceNumber), 'specs'));
+    body.append(link, el('div', p.address, 'city')); if(filled(p.price)) body.append(el('div',p.price.startsWith('€')?p.price:'€ '+p.price,'price-line')); body.append(el('div',displayRef(p.features.referenceNumber),'specs'));
     const specs = [p.features.bedrooms && `${p.features.bedrooms} slaapkamers`, p.features.livingArea && `${p.features.livingArea} m²`, p.features.epcLabel && `EPC ${p.features.epcLabel}`].filter(Boolean).join(' · ');
     body.append(el('div', specs, 'specs')); card.append(body); return card;
   }
+  const characteristicSections = [{"title": "Vertegenwoordiger", "fields": [{"key": "representativeName", "label": "Naam", "kind": "text"}, {"key": "representativePhone", "label": "GSM", "kind": "text"}, {"key": "representativeEmail", "label": "E-mail", "kind": "text"}]}, {"title": "Bebouwing", "fields": [{"key": "propertyFloor", "label": "Verdieping", "kind": "text"}, {"key": "buildingStyle", "label": "Bebouwing", "kind": "selection"}, {"key": "constructionYear", "label": "Bouwjaar", "kind": "integer"}, {"key": "renovationYear", "label": "Renovatiejaar", "kind": "integer"}, {"key": "buildingCondition", "label": "Algemene staat", "kind": "selection"}, {"key": "availability", "label": "Beschikbaar vanaf", "kind": "text"}, {"key": "furnished", "label": "Bemeubeld", "kind": "selection"}, {"key": "petsAllowed", "label": "Huisdieren toegestaan", "kind": "selection"}, {"key": "gardenOrientation", "label": "Oriëntatie tuin", "kind": "selection"}, {"key": "electricalInstallation", "label": "Elektriciteitscertificaat", "kind": "selection"}, {"key": "elevator", "label": "Lift", "kind": "selection"}]}, {"title": "Financiële info", "fields": [{"key": "cadastralIncome", "label": "Kadastraal inkomen (€)", "kind": "decimal"}, {"key": "commonCharges", "label": "Gemeenschappelijke kosten (€ per maand)", "kind": "decimal"}, {"key": "rentalDeposit", "label": "Huurwaarborg (€)", "kind": "decimal"}, {"key": "vatApplicable", "label": "BTW van toepassing", "kind": "selection"}, {"key": "rentExcludesCharges", "label": "Huurprijs exclusief lasten", "kind": "selection"}]}, {"title": "Comfort", "fields": [{"key": "glazing", "label": "Beglazing", "kind": "selection"}, {"key": "kitchen", "label": "Keuken", "kind": "selection"}, {"key": "heating", "label": "Verwarming", "kind": "selection"}, {"key": "gasConnection", "label": "Aardgas", "kind": "selection"}, {"key": "electricityConnection", "label": "Elektriciteit", "kind": "selection"}, {"key": "internet", "label": "Internet", "kind": "selection"}, {"key": "intercom", "label": "Parlofoon", "kind": "selection"}, {"key": "sewerConnection", "label": "Riolering", "kind": "selection"}, {"key": "waterConnection", "label": "Stadswater", "kind": "selection"}, {"key": "telephoneConnection", "label": "Telefoon", "kind": "selection"}, {"key": "heatPump", "label": "Warmtepomp", "kind": "selection"}, {"key": "cableTv", "label": "Distributie", "kind": "selection"}, {"key": "solarPanels", "label": "Zonnepanelen", "kind": "selection"}, {"key": "insulation", "label": "Isolatie", "kind": "text"}, {"key": "ventilation", "label": "Ventilatie", "kind": "selection"}, {"key": "airConditioning", "label": "Airconditioning", "kind": "selection"}]}, {"title": "Oppervlaktes en afmetingen", "fields": [{"key": "plotArea", "label": "Totale opp. grond (m²)", "kind": "decimal"}, {"key": "livingArea", "label": "Bewoonbare opp. (m²)", "kind": "decimal"}, {"key": "gardenArea", "label": "Tuinoppervlakte (m²)", "kind": "decimal"}, {"key": "terraceArea", "label": "Terrasoppervlakte (m²)", "kind": "decimal"}]}, {"title": "Indeling", "fields": [{"key": "bedrooms", "label": "Slaapkamers", "kind": "integer"}, {"key": "bathrooms", "label": "Badkamers", "kind": "integer"}, {"key": "toilets", "label": "Toiletten", "kind": "integer"}, {"key": "livingRoom", "label": "Woonkamer", "kind": "selection"}, {"key": "diningRoom", "label": "Eetkamer", "kind": "selection"}, {"key": "storageRoom", "label": "Berging", "kind": "selection"}, {"key": "basement", "label": "Kelder", "kind": "selection"}, {"key": "attic", "label": "Zolder", "kind": "selection"}, {"key": "garage", "label": "Garage", "kind": "selection"}, {"key": "parkingSpaces", "label": "Aantal parkeerplaatsen", "kind": "integer"}, {"key": "terrace", "label": "Terras", "kind": "selection"}, {"key": "garden", "label": "Tuin", "kind": "selection"}, {"key": "balcony", "label": "Balkon", "kind": "selection"}, {"key": "dressing", "label": "Dressing", "kind": "selection"}, {"key": "veranda", "label": "Veranda", "kind": "selection"}, {"key": "livingRoomArea", "label": "Oppervlakte woonkamer (m²)", "kind": "decimal"}, {"key": "diningRoomArea", "label": "Oppervlakte eetkamer (m²)", "kind": "decimal"}, {"key": "kitchenArea", "label": "Oppervlakte keuken (m²)", "kind": "decimal"}, {"key": "showerCabins", "label": "Aantal douchecabines", "kind": "integer"}, {"key": "garageCount", "label": "Aantal garages", "kind": "integer"}]}, {"title": "Ruimtelijke ordening", "fields": [{"key": "floodSensitivityType", "label": "Overstromingsgevoeligheid", "kind": "selection"}, {"key": "designatedFloodArea", "label": "Afgebakende zone", "kind": "selection"}, {"key": "urbanDestination", "label": "Stedenbouwkundige bestemming", "kind": "text"}, {"key": "urbanViolationSummons", "label": "Dagvaarding voor stedenbouwkundige overtreding", "kind": "selection"}, {"key": "recoveryMeasure", "label": "Rechterlijke of bestuurlijke herstelmaatregel", "kind": "selection"}, {"key": "buildingPermit", "label": "Bouwvergunning", "kind": "selection"}, {"key": "subdivisionPermit", "label": "Verkavelingsvergunning", "kind": "selection"}, {"key": "preemptionRight", "label": "Voorkooprecht", "kind": "selection"}, {"key": "protectedHeritage", "label": "Beschermd erfgoed", "kind": "selection"}, {"key": "mandatoryRenovation", "label": "Renovatieplicht", "kind": "selection"}, {"key": "flemishMeasuresRegisterConsulted", "label": "Maatregelenregister", "kind": "selection"}, {"key": "planningRegisterDestination", "label": "Bestemming volgens plannenregister", "kind": "text"}, {"key": "urbanPlanning", "label": "Stedenbouwkundige informatie", "kind": "text"}, {"key": "floodPScore", "label": "Overstroming P-score", "kind": "selection"}, {"key": "floodGScore", "label": "Overstroming G-score", "kind": "selection"}, {"key": "asBuiltCertificate", "label": "As-builtattest", "kind": "selection"}]}, {"title": "EPC gegevens", "fields": [{"key": "epcScore", "label": "EPC (kWh/m²/jaar)", "kind": "decimal"}, {"key": "epcCertificateCode", "label": "EPC ref.", "kind": "text"}, {"key": "epcLabel", "label": "EPC-label", "kind": "selection"}]}, {"title": "Downloads", "fields": []}];
+  function filled(value) { return !['','niet ingevuld','niet ingegeven'].includes(String(value ?? '').trim().toLowerCase()); }
+  function publicRow(table, label, value) {
+    if (!filled(value)) return;
+    const tr=el('tr'); tr.append(el('td',label),el('td',String(value))); table.append(tr);
+  }
+  function epcBadge(label) {
+    const badge=el('span',null,'epc-badge'); badge.setAttribute('aria-label','EPC-label '+label);
+    const colors={'A+':'#3b9553',A:'#3b9553',B:'#96af30',C:'#e0cb18',D:'#e4a126',E:'#d96d24',F:'#c63c38'};
+    for(const [text,color] of [['EPC','#28576c'],[label,colors[String(label).toUpperCase()]||'#777']]) {
+      const part=el('span',text); part.style.cssText=`display:inline-block;background:${color};color:white;padding:5px 18px;font-weight:bold;font-size:22px;clip-path:polygon(0 0,86% 0,100% 50%,86% 100%,0 100%,10% 50%)`;badge.append(part);
+    }
+    return badge;
+  }
+  async function downloadDocument(path,label,button) {
+    button.disabled=true;
+    try {
+      const response=await fetch(base+'/storage/v1/object/authenticated/vw-team-properties-test/'+path.split('/').map(encodeURIComponent).join('/'),{headers,cache:'no-store'});
+      if(!response.ok) throw Error();
+      const blob=await response.blob(); if(!blob.type.includes('pdf')) throw Error();
+      const url=URL.createObjectURL(blob);urls.push(url);
+      const link=el('a');link.href=url;link.download=String(label).replace(/[\\/]/g,'-').slice(0,100)+(String(label).toLowerCase().endsWith('.pdf')?'':'.pdf');document.body.append(link);link.click();link.remove();
+    } catch (_) { button.textContent='Document niet beschikbaar — opnieuw proberen'; }
+    finally {button.disabled=false;}
+  }
+  function renderCharacteristics(p) {
+    const section=el('section',null,'property-characteristics');section.append(el('h2','Kenmerken'));
+    let rooms=[];try {const parsed=JSON.parse(p.features.roomLayoutV1||'[]');if(Array.isArray(parsed)) rooms=parsed.filter(r=>r&&filled(r.floor)&&filled(r.name));} catch (_) {}
+    for(const group of characteristicSections) {
+      const details=el('details'),summary=el('summary',group.title),table=el('table',null,'facts');
+      details.append(summary);let content=false;
+      if(group.title==='Financiële info'&&filled(p.price)) {publicRow(table,'Prijs',p.price.startsWith('€')?p.price:'€ '+p.price);content=true;}
+      if(group.title==='Indeling'&&rooms.length) {
+        for(const floor of [...new Set(rooms.map(r=>r.floor))]) {
+          const tr=el('tr'),th=el('th',floor);th.colSpan=2;th.style.cssText='text-align:left;padding-top:18px';tr.append(th);table.append(tr);
+          for(const room of rooms.filter(r=>r.floor===floor)) {const row=el('tr');row.append(el('td',room.name),el('td',filled(room.area)?room.area+' m²':''));table.append(row);}
+        }
+        content=true;
+      }
+      for(const field of group.fields) {
+        const value=p.features[field.key];if(!filled(value)) continue;
+        if(field.key==='epcLabel') {const tr=el('tr'),td=el('td');td.append(epcBadge(String(value)));tr.append(el('td','Label'),td);table.append(tr);}
+        else {const label=field.label.replace(/ \(m²\)| \(kWh\/m²\/jaar\)/g,'');const suffix=field.label.includes('(m²)')?' m²':field.key==='epcScore'?' kWh/m²/jaar':'';publicRow(table,label,String(value)+suffix);}
+        content=true;
+      }
+      details.append(table);
+      if(group.title==='Downloads') for(const [i,path] of (p.document_paths||[]).entries()) {
+        const label=p.document_labels?.[path]||`Document ${i+1}.pdf`,button=el('button','📄 '+label,'btn');button.type='button';button.onclick=()=>downloadDocument(path,label,button);details.append(button);content=true;
+      }
+      if(content) section.append(details);
+    }
+    if(section.children.length>1) container.append(section);
+  }
+  function renderEnquiry(p) {
+    const section=el('section');section.id='property-enquiry';section.style.cssText='padding:24px 0;margin-top:20px';section.append(el('h2','Ik wens meer informatie'));
+    const form=el('form'),grid=el('div');grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px';
+    for(const [name,label,type] of [['firstName','Voornaam','text'],['lastName','Naam','text'],['email','E-mail','email'],['phone','Tel./GSM','tel']]) {
+      const field=el('label',label+' *'),input=el('input');input.name=name;input.type=type;input.required=true;input.maxLength=180;input.style.cssText='display:block;box-sizing:border-box;width:100%;padding:12px;margin-top:6px;border:1px solid #c5d0d8;border-radius:5px;font:inherit';field.append(input);grid.append(field);
+    }
+    form.append(grid);const label=el('label','Boodschap'),area=el('textarea');area.name='message';area.maxLength=2000;area.rows=4;area.style.cssText='display:block;box-sizing:border-box;width:100%;margin:10px 0;padding:12px;font:inherit';label.append(area);form.append(label);
+    for(const text of ['Mijn gegevens mogen gebruikt worden om mij te contacteren.','Ik ga akkoord met de gebruiksvoorwaarden en het privacybeleid.']) {const l=el('label'),box=el('input');box.type='checkbox';box.required=true;l.style.cssText='display:block;margin:14px 0';l.append(box,document.createTextNode(' '+text));form.append(l);}
+    const note=el('p','Testformulier: er wordt geen bericht verzonden en de ingevulde gegevens worden niet opgeslagen.');note.style.fontSize='14px';form.append(note);
+    const submit=el('button','Bericht verzenden','btn primary');submit.type='submit';form.append(submit);
+    form.onsubmit=e=>{e.preventDefault();if(!form.reportValidity())return;note.textContent='Test geslaagd. Er is geen bericht verzonden en er zijn geen contactgegevens opgeslagen.';form.reset();};section.append(form);container.append(section);
+    const actions=el('div');actions.style.cssText='display:flex;gap:12px;margin:18px 0';
+    if(filled(p.features.representativePhone)&&/^\+?[0-9 ()/.-]{5,32}$/.test(p.features.representativePhone)) {const call=el('a','Bellen','btn primary');call.href='tel:'+p.features.representativePhone.replace(/[^+0-9]/g,'');actions.append(call);}
+    const more=el('a','Meer info','btn primary');more.href='#property-enquiry';actions.append(more);container.prepend(actions);
+  }
+
   function renderDetail() {
     container.replaceChildren();
     const p = rows.find(p => p.property_ref === new URLSearchParams(location.search).get('ref'));
     if (!p) { message.textContent = 'Dit pand is niet (meer) gepubliceerd.'; return; }
     message.textContent = '';
-    container.append(el('h1', p.title), el('p', p.address), el('p', p.price.startsWith('€') ? p.price : '€ ' + p.price, 'price'), el('p', displayRef(p.features.referenceNumber)));
+    container.append(el('h1', p.title), el('p', p.address));
+    if(filled(p.price)) container.append(el('p', p.price.startsWith('€') ? p.price : '€ '+p.price,'price'));
+    if(filled(p.features.referenceNumber)) container.append(el('p',displayRef(p.features.referenceNumber)));
     const gallery = el('div'); gallery.style.cssText = 'display:flex;flex-wrap:wrap;gap:12px';
     for (const [index,path] of p.photo_paths.entries()) { const frame=el('div'); frame.style.cssText='position:relative;overflow:hidden;border-radius:10px;width:min(100%,420px)'; const image = el('img'); image.alt = p.title; image.style.cssText='display:block;width:100%;height:280px;object-fit:cover'; frame.append(image); if(index === 0) { const ribbon=statusRibbon(p); if(ribbon) frame.append(ribbon); } gallery.append(frame); queueMicrotask(() => photo(path, image)); }
     container.append(gallery);
     const description = el('p', p.description); description.style.whiteSpace='pre-wrap'; container.append(description);
-    const labels = {propertyType:'Type',buildingStyle:'Bebouwing',constructionYear:'Bouwjaar',renovationYear:'Renovatiejaar',livingArea:'Woonoppervlakte (m²)',plotArea:'Grondoppervlakte (m²)',bedrooms:'Slaapkamers',bathrooms:'Badkamers',toilets:'Toiletten',garageCount:'Garages',parkingSpaces:'Parkeerplaatsen',terrace:'Terras',garden:'Tuin',balcony:'Balkon',elevator:'Lift',furnished:'Bemeubeld',epcLabel:'EPC-label',epcScore:'EPC-score',heating:'Verwarming',glazing:'Beglazing',solarPanels:'Zonnepanelen',availability:'Beschikbaarheid',buildingCondition:'Staat',mandatoryRenovation:'Renovatieverplichting',floodPScore:'P-score',floodGScore:'G-score'};
-    const table = el('table',null,'facts');
-    for (const [k,v] of Object.entries(p.features)) if (labels[k] && String(v).trim()) { const tr=el('tr'); tr.append(el('td',labels[k]),el('td',String(v))); table.append(tr); }
-    container.append(table);
+    renderCharacteristics(p);
+    renderEnquiry(p);
   }
   function render() {
     urls.forEach(URL.revokeObjectURL); urls=[];
@@ -108,3 +177,4 @@
   window.addEventListener('storage',render);
   load(); setInterval(()=>{if(!document.hidden)load();},60000);
 })();
+

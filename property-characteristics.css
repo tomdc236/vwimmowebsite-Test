@@ -1,0 +1,13 @@
+.property-characteristics{margin-top:30px;font-size:18px;line-height:1.5}
+.property-characteristics h2{font-size:28px}
+.property-characteristics details{margin:12px 0;border-bottom:1px solid #d9e2e8;padding:8px 0}
+.property-characteristics summary{cursor:pointer;color:#369bb2;font-size:22px;font-weight:700;list-style:none;padding:12px 0}
+.property-characteristics summary::-webkit-details-marker{display:none}
+.property-characteristics summary::after{content:'⌄';float:right;color:#15384e}
+.property-characteristics details[open]>summary::after{content:'⌃'}
+.property-characteristics .facts{width:100%;font-size:18px;table-layout:fixed}
+.property-characteristics .facts td{width:50%;padding:12px 6px;vertical-align:top;overflow-wrap:anywhere;white-space:pre-wrap}
+.property-characteristics .facts td:last-child{text-align:left}
+.property-characteristics .btn{display:block;margin:10px 0}
+#property-enquiry input[type=checkbox]{width:22px;height:22px;vertical-align:middle}
+#property-enquiry .btn{font-size:18px}
