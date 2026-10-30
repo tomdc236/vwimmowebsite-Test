@@ -1,11 +1,11 @@
 const assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs');
 const code=fs.readFileSync(__dirname+'/test-listings.js','utf8');
-class Node { constructor(tag='DIV'){this.tagName=tag.toUpperCase();this.children=[];this.style={};this.classList={toggle(){}};this.isConnected=true;this.value='';this.textContent='';} append(...a){this.children.push(...a)} prepend(...a){this.children.unshift(...a)} replaceChildren(...a){this.children=a} setAttribute(){} addEventListener(){} scrollBy(){} }
-async function run(page,data,query='') {
+class Node { constructor(tag='DIV'){this.tagName=tag.toUpperCase();this.children=[];this.style={};this.classList={toggle(){}};this.isConnected=true;this.value='';this.textContent='';this.attributes={};this.events={};} append(...a){this.children.push(...a)} prepend(...a){this.children.unshift(...a)} replaceChildren(...a){this.children=a} setAttribute(k,v){this.attributes[k]=v} addEventListener(k,v){this.events[k]=v} scrollBy(){} scrollIntoView(){} focus(){} reportValidity(){return true} reset(){this.wasReset=true} }
+async function run(page,data,query='',options={}) {
  const nodes={listing:new Node(), 'publication-message':new Node(),count:new Node(),empty:new Node(),query:new Node('input')};nodes.query.value=query;
- const storage={};let interval;
- const ctx={document:{hidden:false,getElementById:id=>nodes[id],createElement:tag=>new Node(tag),createTextNode:text=>Object.assign(new Node('#text'),{textContent:text}),querySelector:()=>null,querySelectorAll:()=>[]},location:{pathname:'/'+page,search:'?ref=TEST-0001'},localStorage:{getItem:k=>storage[k]||null,setItem:(k,v)=>storage[k]=v,removeItem:k=>delete storage[k]},window:{addEventListener(){}},URL:{createObjectURL:()=>'',revokeObjectURL(){}},URLSearchParams,queueMicrotask,fetch:async()=>({ok:true,json:async()=>data}),setInterval:cb=>interval=cb};
- vm.runInNewContext(code,ctx);await new Promise(setImmediate);return {nodes,storage,interval};
+ const storage={},calls=[];let interval;
+ const ctx={document:{hidden:false,getElementById:id=>nodes[id],createElement:tag=>new Node(tag),createTextNode:text=>Object.assign(new Node('#text'),{textContent:text}),querySelector:()=>null,querySelectorAll:()=>[]},location:{pathname:'/'+page,search:'?ref=TEST-0001'},localStorage:{getItem:k=>storage[k]||null,setItem:(k,v)=>storage[k]=v,removeItem:k=>delete storage[k]},window:{addEventListener(){}},URL:{createObjectURL:()=>'',revokeObjectURL(){}},URLSearchParams,crypto:require('node:crypto').webcrypto,queueMicrotask,fetch:async(url,init)=>{calls.push({url,init});return {ok:!(options.sendFail&&init?.method==='POST'),json:async()=>url.includes('/functions/v1/')?(init?.method==='POST'?(options.sendFail?{error:'Niet bevestigd'}:{sent:true}):{name:'Jan Test',phone:options.noPhone?'':'+32 400 00 00 02',email:'staff@example.invalid',mailReady:options.mailReady!==false}):data}},setInterval:cb=>interval=cb};
+ vm.runInNewContext(code,ctx);await new Promise(setImmediate);return {nodes,storage,interval,calls};
 }
 const row={organization_id:'org',property_ref:'TEST-0001',title:'<img src=x onerror=alert(1)>',address:'Teststraat Gent',price:'248.000',status:'Te koop',features:{referenceNumber:'VI.TK.00001',propertyType:'Villa'},photo_paths:[],description:'Openbaar'};
 (async()=>{
@@ -27,5 +27,19 @@ const row={organization_id:'org',property_ref:'TEST-0001',title:'<img src=x oner
  const titles=sections.children.filter(n=>n.tagName==='DETAILS').map(n=>n.children[0].textContent);
  assert(titles.includes('Vertegenwoordiger'));assert(titles.includes('Bebouwing'));assert(titles.includes('Indeling'));assert(titles.includes('EPC gegevens'));assert(!titles.includes('Financiële info'));assert(!titles.includes('Ruimtelijke ordening'));assert(!titles.includes('Downloads'));
  const allText=n=>[n.textContent,...n.children.map(allText)].join(' ');assert.match(allText(sections),/Neen/);assert.match(allText(sections),/Verdieping 2/);assert.match(allText(sections),/7,5 m²/);
+ // Both actions remain mounted below the property, and reveal the existing form.
+ let actions=r.nodes.listing.children.find(n=>n.className==='property-contact-actions');
+ assert.deepEqual(actions.children.map(n=>n.textContent),['Bellen','Meer info']);assert.equal(actions.children[0].href,'tel:+32400000002');
+ let enquiry=r.nodes.listing.children.find(n=>n.id==='property-enquiry');assert.equal(enquiry.hidden,true);actions.children[1].onclick();assert.equal(enquiry.hidden,false);
+ let form=enquiry.children.find(n=>n.tagName==='FORM'),grid=form.children[0];
+ for(const [i,value] of ['Jan','Bezoeker','visitor@example.invalid','+32 400 00 00 03'].entries())grid.children[i].children[0].value=value;
+ form.children[1].children[0].value='Meer informatie graag.';form.children[2].children[0].checked=true;form.children[3].children[0].checked=true;
+ await form.onsubmit({preventDefault(){}});assert.equal(form.wasReset,true);
+ const request=r.calls.find(c=>c.init?.method==='POST');const payload=JSON.parse(request.init.body);assert.equal(payload.propertyRef,row.property_ref);assert.equal(payload.email,'visitor@example.invalid');assert.equal(payload.to,undefined);
+ r=await run('pand.html',[row],'',{noPhone:true,mailReady:false});actions=r.nodes.listing.children.find(n=>n.className==='property-contact-actions');assert.equal(actions.children.length,2);assert.equal(actions.children[0].attributes['aria-disabled'],'true');
+ enquiry=r.nodes.listing.children.find(n=>n.id==='property-enquiry');form=enquiry.children.find(n=>n.tagName==='FORM');assert.equal(form.children.at(-1).disabled,true);
+ r=await run('pand.html',[row],'',{sendFail:true});enquiry=r.nodes.listing.children.find(n=>n.id==='property-enquiry');form=enquiry.children.find(n=>n.tagName==='FORM');grid=form.children[0];for(const n of grid.children)n.children[0].value='Test';form.children[1].children[0].value='Test';await form.onsubmit({preventDefault(){}});assert.notEqual(form.wasReset,true);assert.equal(form.children.at(-2).textContent,'Niet bevestigd');
+ const css=fs.readFileSync(__dirname+'/property-characteristics.css','utf8');assert.match(css,/\.property-contact-actions\{position:fixed/);assert.match(css,/safe-area-inset-bottom/);
  console.log('Website checks passed: status ribbons, sections, rooms, explicit Neen, empty suppression and safe text rendering');
 })().catch(e=>{console.error(e);process.exitCode=1});
+

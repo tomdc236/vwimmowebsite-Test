@@ -7,7 +7,7 @@
   const page = location.pathname.split('/').pop() || 'index.html';
   const container = document.getElementById('listing') || document.getElementById('track');
   const message = document.getElementById('publication-message');
-  let rows = [], urls = [], loading = false;
+  let rows = [], urls = [], loading = false, enquiryDirty = false;
   const favoriteKey = 'vanwelden-test-favorite-ids-v2';
   function favorites() { try { const a = JSON.parse(localStorage.getItem(favoriteKey) || '[]'); return Array.isArray(a) ? a.filter(v => typeof v === 'string') : []; } catch (_) { return []; } }
   function saveFavorites(ids) { try { localStorage.setItem(favoriteKey, JSON.stringify(ids)); } catch (_) { if (message) message.textContent = 'Favorieten konden niet worden opgeslagen op dit toestel.'; } }
@@ -118,19 +118,40 @@
     if(section.children.length>1) container.append(section);
   }
   function renderEnquiry(p) {
-    const section=el('section');section.id='property-enquiry';section.style.cssText='padding:24px 0;margin-top:20px';section.append(el('h2','Ik wens meer informatie'));
-    const form=el('form'),grid=el('div');grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px';
+    const contact=p.websiteContact||{},section=el('section');
+    section.id='property-enquiry';section.hidden=true;section.className='property-enquiry';section.append(el('h2','Ik wens meer informatie'));
+    const form=el('form'),grid=el('div');grid.className='enquiry-grid';
+    const inputs={};
     for(const [name,label,type] of [['firstName','Voornaam','text'],['lastName','Naam','text'],['email','E-mail','email'],['phone','Tel./GSM','tel']]) {
-      const field=el('label',label+' *'),input=el('input');input.name=name;input.type=type;input.required=true;input.maxLength=180;input.style.cssText='display:block;box-sizing:border-box;width:100%;padding:12px;margin-top:6px;border:1px solid #c5d0d8;border-radius:5px;font:inherit';field.append(input);grid.append(field);
+      const field=el('label',label+' *'),input=el('input');input.name=name;input.type=type;input.required=true;input.maxLength=name==='phone'?32:180;inputs[name]=input;field.append(input);grid.append(field);
     }
-    form.append(grid);const label=el('label','Boodschap'),area=el('textarea');area.name='message';area.maxLength=2000;area.rows=4;area.style.cssText='display:block;box-sizing:border-box;width:100%;margin:10px 0;padding:12px;font:inherit';label.append(area);form.append(label);
-    for(const text of ['Mijn gegevens mogen gebruikt worden om mij te contacteren.','Ik ga akkoord met de gebruiksvoorwaarden en het privacybeleid.']) {const l=el('label'),box=el('input');box.type='checkbox';box.required=true;l.style.cssText='display:block;margin:14px 0';l.append(box,document.createTextNode(' '+text));form.append(l);}
-    const note=el('p','Testformulier: er wordt geen bericht verzonden en de ingevulde gegevens worden niet opgeslagen.');note.style.fontSize='14px';form.append(note);
-    const submit=el('button','Bericht verzenden','btn primary');submit.type='submit';form.append(submit);
-    form.onsubmit=e=>{e.preventDefault();if(!form.reportValidity())return;note.textContent='Test geslaagd. Er is geen bericht verzonden en er zijn geen contactgegevens opgeslagen.';form.reset();};section.append(form);container.append(section);
-    const actions=el('div');actions.style.cssText='display:flex;gap:12px;margin:18px 0';
-    if(filled(p.features.representativePhone)&&/^\+?[0-9 ()/.-]{5,32}$/.test(p.features.representativePhone)) {const call=el('a','Bellen','btn primary');call.href='tel:'+p.features.representativePhone.replace(/[^+0-9]/g,'');actions.append(call);}
-    const more=el('a','Meer info','btn primary');more.href='#property-enquiry';actions.append(more);container.prepend(actions);
+    form.append(grid);const label=el('label','Boodschap'),area=el('textarea');area.name='message';area.maxLength=2000;area.rows=4;label.append(area);form.append(label);
+    const consent=[];
+    for(const text of ['Mijn gegevens mogen gebruikt worden om mij te contacteren.','Ik ga akkoord met de gebruiksvoorwaarden en het privacybeleid.']) {const l=el('label'),box=el('input');box.type='checkbox';box.required=true;consent.push(box);l.className='enquiry-consent';l.append(box,document.createTextNode(' '+text));form.append(l);}
+    const note=el('p',contact.mailReady?'Uw aanvraag gaat naar '+contact.name+'.':'E-mailverzending is nog niet ingesteld. Er kan momenteel geen aanvraag worden verzonden.');note.setAttribute('role','status');note.setAttribute('aria-live','polite');form.append(note);
+    const submit=el('button','Bericht verzenden','btn primary');submit.type='submit';submit.disabled=!contact.mailReady;form.append(submit);
+    form.addEventListener('input',()=>{enquiryDirty=true;});
+    let sending=false,requestId=null,lastPayload='';
+    form.onsubmit=async e=>{
+      e.preventDefault();if(sending||!form.reportValidity()||!contact.mailReady)return;
+      const payload={propertyRef:p.property_ref,firstName:inputs.firstName.value.trim(),lastName:inputs.lastName.value.trim(),email:inputs.email.value.trim(),phone:inputs.phone.value.trim(),message:area.value,contactConsent:consent[0].checked,privacyConsent:consent[1].checked};
+      const serialized=JSON.stringify(payload);if(serialized!==lastPayload||!requestId){requestId=crypto.randomUUID();lastPayload=serialized;}payload.requestId=requestId;
+      sending=true;submit.disabled=true;note.textContent='Uw aanvraag wordt verzonden…';
+      try {
+        const response=await fetch(base+'/functions/v1/website-enquiry',{method:'POST',headers:{...headers,'Content-Type':'application/json'},body:JSON.stringify(payload)});
+        const result=await response.json();if(!response.ok||result.sent!==true)throw Error(result.error||'Verzenden niet bevestigd. Probeer opnieuw.');
+        note.textContent='Uw aanvraag is door de maildienst aanvaard voor verzending. De verantwoordelijke neemt contact met u op.';form.reset();enquiryDirty=false;requestId=null;
+      }catch(error){note.textContent=error.message||'Verzenden niet bevestigd. Uw formulier blijft ingevuld.';}
+      finally{sending=false;submit.disabled=false;}
+    };
+    section.append(form);container.append(section);
+    const actions=el('div',null,'property-contact-actions'),call=el('a','Bellen','btn primary');
+    const phone=typeof contact.phone==='string'?contact.phone:'';
+    if(/^\+?[0-9 ()/.-]{5,32}$/.test(phone)){call.href='tel:'+phone.replace(/[^+0-9]/g,'');call.setAttribute('aria-label','Bellen: '+phone);}
+    else {call.setAttribute('aria-disabled','true');call.href='#property-enquiry';call.onclick=e=>{e.preventDefault();section.hidden=false;note.textContent='Er is nog geen telefoonnummer ingesteld voor dit pand.';section.scrollIntoView({behavior:'smooth',block:'start'});};}
+    const more=el('button','Meer info','btn primary');more.type='button';more.setAttribute('aria-controls','property-enquiry');more.setAttribute('aria-expanded','false');
+    more.onclick=()=>{enquiryDirty=true;section.hidden=false;more.setAttribute('aria-expanded','true');section.scrollIntoView({behavior:'smooth',block:'start'});inputs.firstName.focus({preventScroll:true});};
+    actions.append(call,more);container.append(actions);
   }
 
   function renderDetail() {
@@ -145,10 +166,12 @@
     for (const [index,path] of p.photo_paths.entries()) { const frame=el('div'); frame.style.cssText='position:relative;overflow:hidden;border-radius:10px;width:min(100%,420px)'; const image = el('img'); image.alt = p.title; image.style.cssText='display:block;width:100%;height:280px;object-fit:cover'; frame.append(image); if(index === 0) { const ribbon=statusRibbon(p); if(ribbon) frame.append(ribbon); } gallery.append(frame); queueMicrotask(() => photo(path, image)); }
     container.append(gallery);
     const description = el('p', p.description); description.style.whiteSpace='pre-wrap'; container.append(description);
-    renderCharacteristics(p);
+    const contact=p.websiteContact;
+    renderCharacteristics(contact?{...p,features:{...p.features,representativeName:contact.name||'',representativePhone:contact.phone||'',representativeEmail:contact.email||''}}:p);
     renderEnquiry(p);
   }
   function render() {
+    if (page === 'pand.html' && enquiryDirty) return;
     urls.forEach(URL.revokeObjectURL); urls=[];
     const globalStar = document.querySelector('.hero-fav-link'); if (globalStar) { globalStar.classList.toggle('has-favorites', favorites().length > 0); globalStar.textContent = favorites().length ? '★' : '☆'; }
     if (page === 'pand.html') { renderDetail(); return; }
@@ -161,10 +184,15 @@
     const empty=document.getElementById('empty'); if(empty) empty.hidden=true;
   }
   async function load() {
-    if (loading) return; loading=true;
+    if (loading || (page === 'pand.html' && enquiryDirty)) return; loading=true;
     try {
       const response = await fetch(`${base}/rest/v1/office_test_website_listings?organization_id=eq.${org}&select=*&order=published_at.desc`, {headers,cache:'no-store'});
-      if (!response.ok) throw Error(); rows = await response.json(); render();
+      if (!response.ok) throw Error(); rows = await response.json();
+      if(page==='pand.html') {
+        const p=rows.find(p=>p.property_ref===new URLSearchParams(location.search).get('ref'));
+        if(p) {try {const r=await fetch(base+'/functions/v1/website-enquiry?ref='+encodeURIComponent(p.property_ref),{headers,cache:'no-store'});const c=await r.json();p.websiteContact=r.ok&&c&&typeof c.name==='string'?c:{};}catch(_){p.websiteContact={};}}
+      }
+      render();
     } catch (_) { container.replaceChildren(); if(message) message.textContent='Het aanbod kan momenteel niet worden geladen. Probeer opnieuw.'; }
     finally { loading=false; }
   }
@@ -177,4 +205,5 @@
   window.addEventListener('storage',render);
   load(); setInterval(()=>{if(!document.hidden)load();},60000);
 })();
+
 
