@@ -1,0 +1,161 @@
+:root{font-family:Arial,Helvetica,sans-serif;color:#143249;background:#f5f8fc;font-size:18px;--blue:#0086c1}*{box-sizing:border-box}body{margin:0}a{color:inherit;text-decoration:none}button,input,select{font:inherit}button,a,input,select{touch-action:manipulation}button{cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid #e9ad00;outline-offset:3px}.wrap{width:min(1200px,94%);margin:auto}header{background:white}.header{display:flex;align-items:center;gap:24px;padding:16px 0}.brand{width:235px;flex-shrink:0}.brand img{width:100%;display:block}nav{display:flex;gap:18px;flex:1;align-items:center;justify-content:flex-end;flex-wrap:wrap;font-size:17px;font-weight:600}nav a{padding:8px 0}nav a[aria-current=page]{color:var(--blue);border-bottom:3px solid}.topstar{font-size:27px;white-space:nowrap}.hero{background:linear-gradient(90deg,#061a2cba,#061a2c22),url('van-welden-kantoor.jpg') center 51%/cover;color:white}.hero-inner{padding:62px 0 26px}.hero h1{font-size:58px;line-height:1.08;margin:0 0 20px;max-width:550px}.hero p{font-size:24px;line-height:1.45;max-width:465px;margin:0}.tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;max-width:890px;margin-top:32px}.tabs a{padding:14px 3px;background:#edf4f7ed;color:#143249;text-align:center;font-size:18px;font-weight:800;border-radius:5px}.tabs a[aria-current=page]{background:var(--blue);color:white}.search-strip{background:white;border-bottom:1px solid #dfe7ed;padding:20px 0}.search{display:grid;grid-template-columns:2.2fr 1fr 1fr auto;gap:10px;align-items:end}.search label{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:bold;min-width:0}.search input,.search select{width:100%;min-width:0;height:48px;border:1px solid #c6d2dc;border-radius:5px;padding:0 10px;background:white;color:#183a50;font-size:17px}.blue{background:var(--blue);color:white;border:0;border-radius:5px;padding:13px 20px;font-weight:700;min-height:48px}.section{padding:30px 0}.heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}h2{font-size:32px;margin:0}.more{font-size:16px;color:#006e9c}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}.card{background:white;border-radius:10px;overflow:hidden;box-shadow:0 3px 12px #213c5010;min-width:0}.photo{position:relative}.photo img{width:100%;aspect-ratio:1.42;object-fit:cover;display:block}.tag{position:absolute;top:12px;left:12px;background:var(--blue);color:white;border-radius:4px;padding:7px 9px;font-size:14px;font-weight:bold}.star{position:absolute;right:9px;top:8px;border:0;border-radius:50%;width:42px;height:42px;background:#143249bd;color:white;font-size:32px;line-height:1}.star.on,.topstar.on{color:#ffd52b}.body{padding:16px}.body h3{font-size:21px;line-height:1.25;margin:0 0 12px}.city{color:#536a79;font-size:16px;line-height:1.4}.price{font-size:24px;font-weight:bold;margin:16px 0}.specs{display:flex;flex-wrap:wrap;gap:6px 12px;color:#455f70;font-size:15px;line-height:1.5}.details-link{display:inline-block;color:#0076aa;font-weight:bold;margin-top:14px}.empty{padding:28px;background:white;border-radius:8px;line-height:1.6}.count{color:#526979;margin:0 0 18px}.services{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center;padding:40px 0}.services b{font-size:21px;display:block;margin:12px 0}.services p{font-size:17px;line-height:1.5;color:#536a79}.icon{font-size:36px;color:#285577}.about{display:grid;grid-template-columns:1fr 1fr;gap:25px}.about>div{background:#e8f3fc;border-radius:10px;padding:30px;line-height:1.7}.about img{width:100%;height:300px;object-fit:cover;object-position:center 50%;border-radius:10px}.notice,footer{font-size:15px;line-height:1.6;color:#536a79;padding:24px 0}footer{background:#eaf0f5}.detail{display:grid;grid-template-columns:1.5fr 1fr;gap:28px}.detail-photo{width:100%;border-radius:9px}.detail h1{font-size:34px;margin-top:0}.detail .star{position:static;vertical-align:middle}.panel{background:white;border-radius:8px;padding:22px;margin-top:20px}details{padding:16px 0;border-bottom:1px solid #dae2e8}summary{font-weight:700;cursor:pointer}.back{display:inline-block;margin-bottom:20px;color:#0076aa}#status{color:#805c00;font-size:15px}a:hover{color:#0075aa}.tabs a:hover,.blue:hover{filter:brightness(.94)}
+@media(max-width:800px){.header{gap:12px;flex-wrap:wrap}.brand{width:210px}nav{justify-content:flex-start;gap:6px 19px;font-size:16px}.hero-inner{padding:45px 0 20px}.hero h1{font-size:46px}.hero p{font-size:21px}.tabs{gap:5px}.tabs a{font-size:15px}.grid{gap:12px}.body{padding:12px}.body h3{font-size:18px}.price{font-size:20px}.tag{font-size:12px;padding:6px;left:7px}.star{width:34px;height:34px;font-size:27px;right:5px;top:5px}.city,.specs{font-size:14px}.detail{grid-template-columns:1fr}.search input,.search select{font-size:15px}.search .blue{padding:12px}.services{gap:12px}.services b{font-size:17px}.services p{font-size:15px}}
+@media(max-width:480px){.wrap{width:94%}.header{padding:12px 0}.brand{width:200px}nav{width:100%;flex:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px 8px;font-size:14px}nav a{white-space:nowrap}.topstar{font-size:17px}.hero-inner{padding:35px 0 18px}.hero h1{font-size:40px}.hero p{font-size:19px;max-width:300px}.hero{background-position:center 52%}.tabs{gap:3px;margin-top:28px}.tabs a{font-size:11px;padding:13px 0}.search-strip{padding:13px 0}.search{grid-template-columns:1.65fr 1fr 1fr;gap:7px}.search .blue{grid-column:1/-1;min-height:42px;padding:9px;font-size:16px}.search label{font-size:12px}.search input,.search select{padding:0 5px;font-size:14px;height:44px}.section{padding:24px 0}.heading{align-items:flex-start}h2{font-size:26px}.more{font-size:13px;max-width:105px;line-height:1.4}.grid{gap:7px}.photo img{aspect-ratio:1.05}.tag{top:6px;left:4px;font-size:10px;padding:4px}.photo .star{top:29px;right:4px;width:31px;height:31px;font-size:26px}.body{padding:9px 7px}.body h3{font-size:15px;line-height:1.3;overflow-wrap:anywhere}.city{font-size:13px;line-height:1.4}.price{font-size:16px;line-height:1.5;margin:12px 0;overflow-wrap:anywhere}.specs{display:block;font-size:12px}.specs span{display:block;margin:4px 0}.details-link{font-size:13px;line-height:1.4}.services{gap:10px;padding:30px 0}.services b{font-size:14px}.services p{font-size:13px}.icon{font-size:28px}.about{gap:12px}.about>div{padding:14px;font-size:14px}.about h2{font-size:21px}.about img{height:100%;min-height:280px}.detail h1{font-size:28px}}
+.topstar span{font-size:17px}.city{overflow-wrap:anywhere}@media(max-width:480px){.topstar span{font-size:14px}.search{grid-template-columns:1.5fr .85fr .95fr .8fr;gap:5px}.search .blue{grid-column:auto;font-size:12px;padding:8px 3px;height:44px;min-height:44px}.search input,.search select{font-size:13px}.search label{font-size:11px}}
+@media(max-width:480px){nav{display:flex;justify-content:space-between;flex-wrap:wrap;gap:3px 14px}nav a{font-size:14px}.topstar{font-size:16px}.topstar span{font-size:14px}.search label{min-height:64px;justify-content:flex-end}}
+
+/* Compacte hoofding en fotoblok volgens de gevraagde aanpassing. */
+.header{flex-wrap:nowrap;justify-content:space-between;padding:16px 0;gap:20px}
+.header nav{display:flex;flex:0 1 auto;width:auto;justify-content:flex-end;flex-wrap:nowrap;gap:24px;font-size:17px}
+.header nav a{white-space:nowrap;font-size:17px}
+.topstar,.topstar.on{color:#143249;font-size:17px;background:transparent}
+.favorite-symbol{color:#ffd400;font-size:24px;vertical-align:-1px}
+.topstar span:not(.favorite-symbol){font-size:inherit}
+.star,.star.on{background:transparent;color:#ffd400}
+.hero-inner{padding:32px 0 20px}
+.hero h1{font-size:46px;margin-bottom:14px}
+.hero p{font-size:21px;line-height:1.4}
+.tabs{margin-top:22px;max-width:790px;gap:6px}
+.tabs a{padding:10px 3px;font-size:16px}
+@media(max-width:800px){
+.header{padding:12px 0;gap:12px}.brand{width:180px}
+.header nav{gap:15px}.header nav a{font-size:15px}
+.hero-inner{padding:25px 0 16px}.hero h1{font-size:38px}.hero p{font-size:19px}
+.tabs{margin-top:20px}.tabs a{font-size:14px;padding:10px 2px}
+}
+@media(max-width:480px){
+.header{padding:12px 0;gap:8px}.brand{width:130px;flex:0 0 130px}
+.header nav{gap:8px;justify-content:space-between;flex:1;min-width:0}
+.header nav a{font-size:12px;padding:6px 0}
+.favorite-symbol{font-size:17px}.topstar{display:flex;gap:2px;align-items:center}
+.hero-inner{padding:22px 0 14px}.hero h1{font-size:32px;margin-bottom:12px}.hero p{font-size:17px;line-height:1.4}
+.tabs{margin-top:18px;gap:3px}.tabs a{font-size:11px;padding:10px 0}
+}
+.services{grid-template-columns:repeat(4,minmax(0,1fr))}.services>div{min-width:0;overflow-wrap:anywhere}.services a{font-size:16px}@media(max-width:480px){.services a{font-size:13px}.services b{font-size:13px}}
+
+/* De drie recentste testpanden vervangen uitsluitend de kantoorafbeelding. */
+.about{align-items:start}
+.newest{min-width:0}
+.newest h2{margin:0 0 16px;font-size:28px;line-height:1.25}
+.newest-list{display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.about .newest .photo img{width:100%;height:auto;min-height:0;aspect-ratio:1.8;object-fit:cover;border-radius:0}
+.newest .body{padding:14px}
+.newest .body h3{font-size:20px;margin-bottom:8px}
+.newest .price{font-size:22px;margin:10px 0}
+.newest .specs{display:none}
+.newest .city{font-size:15px}
+.newest .details-link{margin-top:4px}
+@media(max-width:480px){
+.newest h2{font-size:21px;margin-bottom:12px}
+.newest-list{gap:12px}
+.newest .body{padding:10px}
+.newest .body h3{font-size:15px;overflow-wrap:normal}
+.newest .city{font-size:13px}
+.newest .price{font-size:16px;margin:8px 0}
+.newest .details-link{font-size:13px}
+}
+
+/* Goedgekeurde blauwe vakken onder het bestaande linkervak. */
+.about>.left-column{background:transparent;padding:0;line-height:normal;min-width:0}
+.why-box{background:#e8f3fc;border-radius:10px;padding:30px;line-height:1.7}
+.callouts{display:grid;gap:16px;margin-top:18px}
+.callout{display:grid;grid-template-columns:70px minmax(0,1fr);gap:20px;align-items:center;width:100%;border:0;border-radius:10px;padding:26px 24px;background:#61b5d9;color:#fff;text-align:left;line-height:1.3;font-size:21px;cursor:pointer}
+.callout strong{font-weight:750}.callout-title{font-size:1.25em}
+.callout-icon{display:flex;align-items:center;justify-content:center;color:#fff}
+.callout-icon svg{display:block;width:100%;height:auto}
+.euro-icon{font:750 90px/1 Arial,Helvetica,sans-serif}
+.callout:hover{background:#55acd2}
+#callout-dialog{border:0;border-radius:12px;padding:28px;max-width:min(520px,92vw);color:#143249;line-height:1.5}
+#callout-dialog::backdrop{background:#14324988}
+#callout-dialog h2{font-size:25px}
+@media(max-width:800px){.callout{grid-template-columns:45px minmax(0,1fr);gap:12px;padding:20px 15px;font-size:17px}.euro-icon{font-size:64px}}
+@media(max-width:480px){
+.why-box{padding:14px;font-size:14px}
+.callouts{gap:9px;margin-top:10px}
+.callout{grid-template-columns:32px minmax(0,1fr);gap:8px;padding:16px 10px;font-size:clamp(11px,3.15vw,15px);border-radius:6px;min-height:82px}
+.callout-title{font-size:1.2em}
+.euro-icon{font-size:46px}
+}
+
+/* Hoofding met twee grotere links; zoeken blijft alleen op aanbodpagina's. */
+.header nav{gap:30px}
+.header nav a{font-size:21px}
+@media(max-width:800px){.header nav{gap:24px}.header nav a{font-size:19px}}
+@media(max-width:480px){.header nav{gap:16px;justify-content:flex-end}.header nav a{font-size:16px}.favorite-symbol{font-size:22px}}
+
+/* Originele SVG uitsluitend groter weergegeven, zonder beeldbewerking. */
+.brand{width:320px;flex:0 1 320px}
+.brand img{display:block;width:100%;height:auto;max-height:none;object-fit:contain}
+.information-page{max-width:920px}
+.info-card{padding:36px;margin-bottom:24px;border-radius:14px;background:#fff;line-height:1.6}
+.info-card h1{font-size:42px;line-height:1.15;margin:0 0 16px}
+.info-card h2{font-size:29px;line-height:1.2;margin:0 0 12px}
+.info-card p{margin:0 0 20px}
+.info-card .intro{font-size:21px}
+.info-highlight{padding:20px;background:#e8f6fc;color:#0086c1;border-radius:10px;font-weight:750;font-size:23px}
+.info-feature{display:grid;grid-template-columns:64px minmax(0,1fr);gap:18px;margin:24px 0}
+.info-feature h2{font-size:23px;margin-bottom:6px}
+.info-feature p{margin:0}
+.info-icon{display:flex;align-items:center;justify-content:center;width:64px;height:64px;background:#e8f6fc;color:#0086c1;border-radius:50%;font-size:36px}
+#contact-form{display:flex;flex-direction:column;gap:8px}
+#contact-form>label{font-size:18px;font-weight:700;margin-top:12px}
+#contact-form>input,#contact-form>textarea{width:100%;font:inherit;border:1px solid #bdcfdd;border-radius:6px;background:#fff;color:#143249;padding:12px;min-height:49px}
+#contact-form>textarea{resize:vertical;min-height:150px}
+#contact-form input:focus,#contact-form textarea:focus{outline:2px solid #61b5d9;outline-offset:2px}
+.checkbox-label{display:flex;gap:12px;align-items:flex-start;line-height:1.5}
+.checkbox-label input{flex:0 0 22px;width:22px;height:22px;margin:3px 0 0;accent-color:#0086c1}
+#contact-form .checkbox-label{font-weight:400}
+#contact-form .consent{margin-top:14px}
+.interest{border:0;padding:0;margin:18px 0 8px}
+.interest legend{font-weight:700;padding:0;margin-bottom:10px}
+.interest-options{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.text-link{border:0;background:none;color:#0086c1;text-decoration:underline;cursor:pointer;padding:0;font:inherit}
+.send-button{display:block;width:100%;margin-top:8px;background:#61b5d9;font-size:21px}
+.send-button:disabled{cursor:default;opacity:.8}
+#contact-form .form-note{font-size:15px;line-height:1.5;margin:18px 0 0;color:#526979}
+#contact-form .required-note{font-size:14px;color:#526979;margin:4px 0 0}
+#policy-dialog{max-width:min(520px,92vw);border:0;border-radius:12px;padding:28px;line-height:1.5;color:#143249}
+#policy-dialog::backdrop{background:#14324988}
+@media(max-width:800px){.brand{width:260px;flex-basis:260px}}
+@media(max-width:480px){
+.brand{width:180px;flex:0 1 180px;min-width:0}
+.header nav{flex:0 0 auto;gap:12px}
+.header{gap:8px}
+.information-page{width:94%;padding-top:18px}
+.info-card{padding:20px 16px;margin-bottom:18px}
+.info-card h1{font-size:31px}
+.info-card h2{font-size:25px}
+.info-card .intro{font-size:17px}
+.info-highlight{font-size:18px;padding:14px}
+.info-feature{grid-template-columns:42px minmax(0,1fr);gap:12px}
+.info-icon{width:42px;height:42px;font-size:28px}
+.info-feature h2{font-size:18px}
+.info-feature p,.info-card>p{font-size:16px}
+#contact-form>label{font-size:17px}
+#contact-form .checkbox-label{font-size:15px}
+.send-button{font-size:19px}
+}
+
+/* Servicepagina's volgens de drie goedgekeurde voorbeelden. */
+.service-page .info-card{box-shadow:0 3px 18px #213c5005}
+.service-page h1{font-size:40px}
+.service-page .info-card h2{font-size:28px;margin-bottom:20px}
+.service-highlight{color:#35a7c8;font-weight:700}
+.service-symbol{display:inline-block;font-size:64px;line-height:1;vertical-align:middle;margin-right:14px;color:#35a7c8}
+.selling-points{padding-left:28px}.selling-points li{padding-left:8px;margin-bottom:14px}
+.mailbox-intro{text-align:center}.envelope{width:64px;height:48px;color:#35add6;margin:0 auto 14px}
+.mailbox-intro h2{font-weight:400}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 24px}
+#contact-form .field{display:flex;flex-direction:column;gap:7px;font-size:18px;font-weight:400;margin:10px 0 0;min-width:0}
+.field input,.field select{width:100%;min-width:0;font:inherit;border:1px solid #bdcfdd;border-radius:6px;background:white;color:#143249;padding:12px;min-height:49px}
+#contact-form h3{margin:22px 0 0;font-size:23px}
+.divided{border-top:1px solid #dfe7ed;padding-top:18px}
+#contact-form a,footer a{color:#0076aa;text-decoration:underline;overflow-wrap:anywhere}
+@media(max-width:600px){.service-page h1{font-size:30px}.service-page .info-card h2{font-size:24px}.service-symbol{font-size:46px;margin-right:6px}.form-grid{grid-template-columns:1fr;gap:6px}.interest-options{gap:12px 8px}.service-page .checkbox-label{font-size:15px}.service-page .field{font-size:17px!important}.header nav a{white-space:normal;text-align:right}}
+
+/* Existing publication renderer uses these aliases; original page layout above is unchanged. */
+.property{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 3px 12px #213c5010;min-width:0}
+.property-image{height:220px;position:relative;background:#e8f3fc}
+.property-body{padding:14px}.property-body>a{font-size:20px;font-weight:700}.price-line{font-size:22px;font-weight:bold;margin:10px 0}
+.heart{position:absolute;right:9px;top:8px;border:0;background:transparent;color:#ffd400;font-size:32px;z-index:3}
+.heart.on{color:#ffd400}.newest-list .specs{display:none}
+@media(max-width:480px){.property-image{height:140px}.property-body{padding:10px}.property-body>a{font-size:15px}.price-line{font-size:16px}}

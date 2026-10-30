@@ -17,7 +17,7 @@ const row={organization_id:'org',property_ref:'TEST-0001',title:'<img src=x oner
  r=await run('pand.html',[row]);assert.equal(r.nodes.listing.children.find(n=>n.tagName==='H1').textContent,row.title);
  r=await run('favorieten.html',[row]);assert.equal(r.nodes.listing.children.length,0);
  for (const [status,label] of [['Verkocht','Verkocht'],['Verhuurd','Verhuurd'],['Onder optie','In optie'],['In optie','In optie']]) {
-  r=await run('index.html',[{...row,status}]);
+  r=await run(/Verkocht|Verhuurd/.test(status)?'referenties.html':'index.html',[{...row,status}]);
   const ribbon=r.nodes.listing.children[0].children[0].children.find(n=>n.className==='property-status-ribbon');assert.equal(ribbon.textContent,label);
  }
  r=await run('index.html',[row]);assert.equal(r.nodes.listing.children[0].children[0].children.filter(n=>n.className==='property-status-ribbon').length,0);
@@ -47,4 +47,3 @@ const row={organization_id:'org',property_ref:'TEST-0001',title:'<img src=x oner
  const css=fs.readFileSync(__dirname+'/property-characteristics.css','utf8');assert.match(css,/\.property-contact-actions\{position:fixed/);assert.match(css,/safe-area-inset-bottom/);
  console.log('Website checks passed: status ribbons, sections, rooms, explicit Neen, empty suppression and safe text rendering');
 })().catch(e=>{console.error(e);process.exitCode=1});
-

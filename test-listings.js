@@ -176,10 +176,12 @@
     if (page === 'pand.html' && enquiryDirty) return;
     urls.forEach(URL.revokeObjectURL); urls=[];
     const globalStar = document.querySelector('.hero-fav-link'); if (globalStar) { globalStar.classList.toggle('has-favorites', favorites().length > 0); globalStar.textContent = favorites().length ? '★' : '☆'; }
+    const topStar=document.querySelector('.topstar');if(topStar){topStar.setAttribute('aria-label','Favorieten');topStar.textContent=(favorites().length?'★':'☆')+' Favorieten'+(favorites().length?' ('+favorites().length+')':'');}
     if (page === 'pand.html') { renderDetail(); return; }
     let filtered = rows.filter(match);
     if (field('sort') === 'low') filtered.sort((a,b) => amount(a.price)-amount(b.price));
     if (field('sort') === 'high') filtered.sort((a,b) => amount(b.price)-amount(a.price));
+    if(page==='index.html'||page==='home.html') filtered=filtered.filter(p=>kind(p)!=='reference').slice(0,3);
     container.replaceChildren(...filtered.map(renderCard));
     if (message) message.textContent = filtered.length ? '' : rows.length ? 'Geen gepubliceerde panden gevonden voor deze selectie.' : 'Nog geen panden gepubliceerd vanuit Management.';
     const count=document.getElementById('count'); if(count) count.textContent=filtered.length+' panden gevonden';
