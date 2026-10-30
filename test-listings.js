@@ -16,6 +16,13 @@
   function field(name) { const n = document.getElementById(name); return n && 'value' in n ? n.value.trim() : ''; }
   function amount(s) { const n = String(s).replace(/[^\d,.-]/g, '').replace(/\./g, '').replace(',', '.'); return Number(n) || 0; }
   function displayRef(s) { return String(s || '').replace(/\.(\d{5})$/, (_, n) => '.' + String(Number(n)).padStart(4, '0')); }
+  function statusLabel(status) { return ({verkocht:'Verkocht',verhuurd:'Verhuurd','onder optie':'In optie','in optie':'In optie'})[String(status || '').trim().toLowerCase()] || null; }
+  function statusRibbon(p) {
+    const label = statusLabel(p.status); if (!label) return null;
+    const ribbon = el('span', label, 'property-status-ribbon');
+    ribbon.style.cssText='position:absolute;left:-15%;top:44%;width:130%;background:rgba(255,98,108,.80);color:white;text-align:center;font-size:clamp(14px,3vw,34px);font-weight:800;padding:7px 0;transform:rotate(-20deg);pointer-events:none;z-index:2;line-height:1.2';
+    return ribbon;
+  }
   function kind(p) { return /verkocht|verhuurd/i.test(p.status) ? 'reference' : /huur/i.test(p.status) ? 'rent' : 'sale'; }
   function match(p) {
     if (page === 'te-koop.html' && kind(p) !== 'sale') return false;
@@ -43,10 +50,11 @@
   }
   function renderCard(p) {
     const card = el('article', null, 'property'), visual = el('div', null, 'property-image');
-    visual.style.position = 'relative';
+    visual.style.position = 'relative'; visual.style.overflow = 'hidden';
     if (p.photo_paths.length) { const img = el('img'); img.alt = p.title; img.style.cssText = 'width:100%;height:100%;object-fit:cover'; visual.append(img); queueMicrotask(() => photo(p.photo_paths[0], img)); }
     else visual.append(el('span', 'Nog geen openbare foto'));
-    visual.append(el('span', p.status, 'tag'));
+    visual.append(el('span', p.status === 'Onder optie' ? 'In optie' : p.status, 'tag'));
+    const ribbon = statusRibbon(p); if (ribbon) visual.append(ribbon);
     const star = el('button', favorites().includes(id(p)) ? '★' : '☆', 'heart'); star.type = 'button'; star.setAttribute('aria-label', 'Favoriet wijzigen');
     star.classList.toggle('on', favorites().includes(id(p)));
     star.onclick = () => { const ids = favorites(); saveFavorites(ids.includes(id(p)) ? ids.filter(v => v !== id(p)) : [...ids,id(p)]); render(); };
@@ -63,7 +71,7 @@
     message.textContent = '';
     container.append(el('h1', p.title), el('p', p.address), el('p', p.price.startsWith('€') ? p.price : '€ ' + p.price, 'price'), el('p', displayRef(p.features.referenceNumber)));
     const gallery = el('div'); gallery.style.cssText = 'display:flex;flex-wrap:wrap;gap:12px';
-    for (const path of p.photo_paths) { const image = el('img'); image.alt = p.title; image.style.cssText='width:min(100%,420px);height:280px;object-fit:cover;border-radius:10px'; gallery.append(image); queueMicrotask(() => photo(path, image)); }
+    for (const [index,path] of p.photo_paths.entries()) { const frame=el('div'); frame.style.cssText='position:relative;overflow:hidden;border-radius:10px;width:min(100%,420px)'; const image = el('img'); image.alt = p.title; image.style.cssText='display:block;width:100%;height:280px;object-fit:cover'; frame.append(image); if(index === 0) { const ribbon=statusRibbon(p); if(ribbon) frame.append(ribbon); } gallery.append(frame); queueMicrotask(() => photo(path, image)); }
     container.append(gallery);
     const description = el('p', p.description); description.style.whiteSpace='pre-wrap'; container.append(description);
     const labels = {propertyType:'Type',buildingStyle:'Bebouwing',constructionYear:'Bouwjaar',renovationYear:'Renovatiejaar',livingArea:'Woonoppervlakte (m²)',plotArea:'Grondoppervlakte (m²)',bedrooms:'Slaapkamers',bathrooms:'Badkamers',toilets:'Toiletten',garageCount:'Garages',parkingSpaces:'Parkeerplaatsen',terrace:'Terras',garden:'Tuin',balcony:'Balkon',elevator:'Lift',furnished:'Bemeubeld',epcLabel:'EPC-label',epcScore:'EPC-score',heating:'Verwarming',glazing:'Beglazing',solarPanels:'Zonnepanelen',availability:'Beschikbaarheid',buildingCondition:'Staat',mandatoryRenovation:'Renovatieverplichting',floodPScore:'P-score',floodGScore:'G-score'};
