@@ -128,6 +128,7 @@
     form.append(grid);const label=el('label','Boodschap'),area=el('textarea');area.name='message';area.maxLength=2000;area.rows=4;label.append(area);form.append(label);
     const consent=[];
     for(const text of ['Mijn gegevens mogen gebruikt worden om mij te contacteren.','Ik ga akkoord met de gebruiksvoorwaarden en het privacybeleid.']) {const l=el('label'),box=el('input');box.type='checkbox';box.required=true;consent.push(box);l.className='enquiry-consent';l.append(box,document.createTextNode(' '+text));form.append(l);}
+    const privacy=el('a','Privacy en gebruiksvoorwaarden');privacy.href='privacy.html';form.append(privacy);
     const note=el('p',contact.mailReady?'Uw aanvraag gaat naar '+contact.name+'.':'E-mailverzending is nog niet ingesteld. Er kan momenteel geen aanvraag worden verzonden.');note.setAttribute('role','status');note.setAttribute('aria-live','polite');form.append(note);
     const submit=el('button','Bericht verzenden','btn primary');submit.type='submit';submit.disabled=!contact.mailReady;form.append(submit);
     form.addEventListener('input',()=>{enquiryDirty=true;});
