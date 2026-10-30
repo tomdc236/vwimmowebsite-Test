@@ -147,8 +147,9 @@
     section.append(form);container.append(section);
     const actions=el('div',null,'property-contact-actions'),call=el('a','Bellen','btn primary');
     const phone=typeof contact.phone==='string'?contact.phone:'';
-    if(/^\+?[0-9 ()/.-]{5,32}$/.test(phone)){call.href='tel:'+phone.replace(/[^+0-9]/g,'');call.setAttribute('aria-label','Bellen: '+phone);}
-    else {call.setAttribute('aria-disabled','true');call.href='#property-enquiry';call.onclick=e=>{e.preventDefault();section.hidden=false;note.textContent='Er is nog geen telefoonnummer ingesteld voor dit pand.';section.scrollIntoView({behavior:'smooth',block:'start'});};}
+    const testPhone=['017482','018321','019243'].includes(phone.replace(/[^0-9]/g,''));
+    if(!testPhone && /^\+?[0-9 ()/.-]{5,32}$/.test(phone)){call.href='tel:'+phone.replace(/[^+0-9]/g,'');call.setAttribute('aria-label','Bellen: '+phone);}
+    else {call.setAttribute('aria-disabled','true');call.href='#property-enquiry';call.onclick=e=>{e.preventDefault();section.hidden=false;note.textContent=testPhone?'Dit is een fictief testnummer. Bellen is uitgeschakeld.':'Er is nog geen telefoonnummer ingesteld voor dit pand.';section.scrollIntoView({behavior:'smooth',block:'start'});};}
     const more=el('button','Meer info','btn primary');more.type='button';more.setAttribute('aria-controls','property-enquiry');more.setAttribute('aria-expanded','false');
     more.onclick=()=>{enquiryDirty=true;section.hidden=false;more.setAttribute('aria-expanded','true');section.scrollIntoView({behavior:'smooth',block:'start'});inputs.firstName.focus({preventScroll:true});};
     actions.append(call,more);container.append(actions);
