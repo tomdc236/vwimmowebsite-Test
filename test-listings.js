@@ -51,8 +51,13 @@
   function renderCard(p) {
     const card = el('article', null, 'property'), visual = el('div', null, 'property-image');
     visual.style.position = 'relative'; visual.style.overflow = 'hidden';
-    if (p.photo_paths.length) { const img = el('img'); img.alt = p.title; img.style.cssText = 'width:100%;height:100%;object-fit:cover'; visual.append(img); queueMicrotask(() => photo(p.photo_paths[0], img)); }
-    else visual.append(el('span', 'Nog geen openbare foto'));
+    const photoLink = el('a', null, 'property-photo-link');
+    photoLink.href = `pand.html?ref=${encodeURIComponent(p.property_ref)}`;
+    photoLink.setAttribute('aria-label', 'Bekijk pand: ' + p.title);
+    photoLink.style.cssText = 'display:block;width:100%;height:100%';
+    visual.append(photoLink);
+    if (p.photo_paths.length) { const img = el('img'); img.alt = p.title; img.style.cssText = 'width:100%;height:100%;object-fit:cover'; photoLink.append(img); queueMicrotask(() => photo(p.photo_paths[0], img)); }
+    else photoLink.append(el('span', 'Nog geen openbare foto'));
     visual.append(el('span', p.status === 'Onder optie' ? 'In optie' : p.status, 'tag'));
     const ribbon = statusRibbon(p); if (ribbon) visual.append(ribbon);
     const star = el('button', favorites().includes(id(p)) ? '★' : '☆', 'heart'); star.type = 'button'; star.setAttribute('aria-label', 'Favoriet wijzigen');

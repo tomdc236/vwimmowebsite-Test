@@ -11,6 +11,11 @@ const row={organization_id:'org',property_ref:'TEST-0001',title:'<img src=x oner
 (async()=>{
  let r=await run('index.html',[]);assert.equal(r.nodes.listing.children.length,0);assert.match(r.nodes['publication-message'].textContent,/Nog geen/);
  r=await run('te-koop.html',[row]);assert.equal(r.nodes.listing.children.length,1);assert.equal(r.nodes.listing.children[0].children[1].children[0].textContent,row.title);assert.equal(r.nodes.listing.children[0].children[1].children[3].textContent,'VI.TK.0001');
+ const visual=r.nodes.listing.children[0].children[0];
+ const imageLink=visual.children.find(n=>n.className==='property-photo-link');
+ assert.equal(imageLink.href,'pand.html?ref=TEST-0001');
+ assert.equal(imageLink.attributes['aria-label'],'Bekijk pand: '+row.title);
+ assert.equal(imageLink.tagName,'A');
  r=await run('te-huur.html',[row]);assert.equal(r.nodes.listing.children.length,0);
  r=await run('index.html',[row],'nietgevonden');assert.equal(r.nodes.listing.children.length,0);
  r=await run('pand.html',[]);assert.match(r.nodes['publication-message'].textContent,/niet \(meer\)/);
