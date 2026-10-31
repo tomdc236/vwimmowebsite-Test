@@ -50,6 +50,15 @@
   }
   function renderCard(p) {
     const card = el('article', null, 'property'), visual = el('div', null, 'property-image');
+    // Make the complete listing card open its dossier, including address and price.
+    // Links keep native browser navigation; favorite buttons remain independent.
+    const detailUrl = `pand.html?ref=${encodeURIComponent(p.property_ref)}`;
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', event => {
+      if (event.defaultPrevented || event.button > 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      if (event.target.closest('a,button,input,select,textarea,label')) return;
+      location.href = detailUrl;
+    });
     visual.style.position = 'relative'; visual.style.overflow = 'hidden';
     const photoLink = el('a', null, 'property-photo-link');
     photoLink.href = `pand.html?ref=${encodeURIComponent(p.property_ref)}`;

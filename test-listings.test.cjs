@@ -5,7 +5,8 @@ async function run(page,data,query='',options={}) {
  const nodes={listing:new Node(), 'publication-message':new Node(),count:new Node(),empty:new Node(),query:new Node('input')};nodes.query.value=query;
  const storage={},calls=[];let interval;
  const ctx={document:{hidden:false,getElementById:id=>nodes[id],createElement:tag=>new Node(tag),createTextNode:text=>Object.assign(new Node('#text'),{textContent:text}),querySelector:()=>null,querySelectorAll:()=>[]},location:{pathname:'/'+page,search:'?ref=TEST-0001'},localStorage:{getItem:k=>storage[k]||null,setItem:(k,v)=>storage[k]=v,removeItem:k=>delete storage[k]},window:{addEventListener(){}},URL:{createObjectURL:()=>'',revokeObjectURL(){}},URLSearchParams,crypto:require('node:crypto').webcrypto,queueMicrotask,fetch:async(url,init)=>{calls.push({url,init});return {ok:!(options.sendFail&&init?.method==='POST'),json:async()=>url.includes('/functions/v1/')?(init?.method==='POST'?(options.sendFail?{error:'Niet bevestigd'}:{sent:true}):{name:'Jan Test',phone:options.noPhone?'':(options.phone||'+32 400 00 00 02'),email:'staff@example.invalid',mailReady:options.mailReady!==false}):data}},setInterval:cb=>interval=cb};
- vm.runInNewContext(code,ctx);await new Promise(setImmediate);return {nodes,storage,interval,calls};
+ if(options.home){nodes.track=nodes.listing;delete nodes.listing;}
+ vm.runInNewContext(code,ctx);await new Promise(setImmediate);return {nodes,storage,interval,calls,location:ctx.location};
 }
 const row={organization_id:'org',property_ref:'TEST-0001',title:'<img src=x onerror=alert(1)>',address:'Teststraat Gent',price:'248.000',status:'Te koop',features:{referenceNumber:'VI.TK.00001',propertyType:'Villa'},photo_paths:[],description:'Openbaar'};
 (async()=>{
@@ -68,5 +69,17 @@ const row={organization_id:'org',property_ref:'TEST-0001',title:'<img src=x oner
  r=await run('pand.html',[{...row,photo_paths:['only.jpg']}]);gallery=r.nodes.listing.children.find(n=>n.className==='property-gallery');assert.equal(gallery.children.length,1);
  r=await run('pand.html',[row]);gallery=r.nodes.listing.children.find(n=>n.className==='property-gallery');assert.match(gallery.children[0].textContent,/Nog geen openbare foto/);
 
+
+ // Exercise the actual Home container (#track), not the listing-page container.
+ r=await run('index.html',[row],'',{home:true});
+ const homeCard=r.nodes.track.children[0];assert(homeCard);
+ homeCard.events.click({target:{closest:()=>null}});
+ assert.equal(r.location.href,'pand.html?ref=TEST-0001');
+ r.location.href='unchanged';
+ homeCard.events.click({target:{closest:()=>({tagName:'BUTTON'})}});
+ assert.equal(r.location.href,'unchanged');
+ homeCard.events.click({ctrlKey:true,target:{closest:()=>null}});
+ assert.equal(r.location.href,'unchanged');
+ assert.equal(homeCard.children[0].children.find(n=>n.className==='property-photo-link').href,'pand.html?ref=TEST-0001');
  console.log('Website checks passed: status ribbons, sections, rooms, explicit Neen, empty suppression and safe text rendering');
 })().catch(e=>{console.error(e);process.exitCode=1});
