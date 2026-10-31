@@ -156,6 +156,75 @@
     actions.append(call,more);container.append(actions);
   }
 
+  let activeGalleryRef = '', activeGalleryIndex = 0;
+  function renderGallery(p) {
+    const paths = p.photo_paths || [];
+    const gallery = el('section', null, 'property-gallery');
+    gallery.setAttribute('role', 'region');
+    gallery.setAttribute('aria-roledescription', 'carrousel');
+    gallery.setAttribute('aria-label', 'Foto’s van ' + p.title);
+    gallery.style.cssText = 'width:100%;max-width:960px;min-width:0;margin:20px 0';
+    if (!paths.length) { gallery.append(el('p', 'Nog geen openbare foto')); return gallery; }
+    if (activeGalleryRef !== p.property_ref) { activeGalleryRef = p.property_ref; activeGalleryIndex = 0; }
+    activeGalleryIndex = Math.min(activeGalleryIndex, paths.length - 1);
+    const track = el('div', null, 'property-gallery-track');
+    track.tabIndex = 0;
+    track.setAttribute('aria-label', 'Veeg naar links of rechts voor de volgende of vorige foto');
+    track.style.cssText = 'display:flex;flex-wrap:nowrap;width:100%;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;border-radius:10px;background:#e8f3fc;-webkit-overflow-scrolling:touch';
+    for (const [index, path] of paths.entries()) {
+      const frame = el('div', null, 'property-gallery-slide');
+      frame.style.cssText = 'position:relative;flex:0 0 100%;min-width:0;scroll-snap-align:start;scroll-snap-stop:always;overflow:hidden';
+      const image = el('img');
+      image.alt = p.title + ' — foto ' + (index + 1) + ' van ' + paths.length;
+      image.draggable = false;
+      image.style.cssText = 'display:block;width:100%;height:clamp(240px,55vw,520px);object-fit:contain';
+      frame.append(image);
+      if (index === 0) { const ribbon = statusRibbon(p); if (ribbon) frame.append(ribbon); }
+      track.append(frame);
+      queueMicrotask(() => photo(path, image));
+    }
+    const controls = el('div', null, 'property-gallery-controls');
+    controls.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:20px;margin-top:10px';
+    controls.hidden = paths.length < 2;
+    const previous = el('button', '<'), next = el('button', '>'), counter = el('span');
+    for (const [button, label] of [[previous, 'Vorige foto'], [next, 'Volgende foto']]) {
+      button.type = 'button';
+      button.setAttribute('aria-label', label);
+      button.style.cssText = 'font-size:28px;font-weight:bold;width:48px;height:48px;border:1px solid #c6d2dc;border-radius:6px;background:white;color:#143249;cursor:pointer';
+    }
+    counter.setAttribute('role', 'status');
+    counter.setAttribute('aria-live', 'polite');
+    counter.style.cssText = 'min-width:80px;text-align:center';
+    function update() {
+      counter.textContent = (activeGalleryIndex + 1) + ' / ' + paths.length;
+      previous.disabled = activeGalleryIndex === 0;
+      next.disabled = activeGalleryIndex === paths.length - 1;
+    }
+    function move(direction) {
+      activeGalleryIndex = Math.max(0, Math.min(paths.length - 1, activeGalleryIndex + direction));
+      track.scrollTo({left: activeGalleryIndex * track.clientWidth, behavior: 'smooth'});
+      update();
+    }
+    previous.onclick = () => move(-1);
+    next.onclick = () => move(1);
+    track.addEventListener('scroll', () => {
+      if (!track.clientWidth) return;
+      activeGalleryIndex = Math.max(0, Math.min(paths.length - 1, Math.round(track.scrollLeft / track.clientWidth)));
+      update();
+    }, {passive: true});
+    track.addEventListener('keydown', event => {
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+        event.preventDefault(); move(event.key === 'ArrowLeft' ? -1 : 1);
+      }
+    });
+    controls.append(previous, counter, next);
+    gallery.append(track);
+    if (paths.length > 1) gallery.append(controls);
+    update();
+    queueMicrotask(() => { if (track.isConnected) track.scrollLeft = activeGalleryIndex * track.clientWidth; });
+    return gallery;
+  }
+
   function renderDetail() {
     container.replaceChildren();
     const p = rows.find(p => p.property_ref === new URLSearchParams(location.search).get('ref'));
@@ -164,9 +233,7 @@
     container.append(el('h1', p.title), el('p', p.address));
     if(filled(p.price)) container.append(el('p', p.price.startsWith('€') ? p.price : '€ '+p.price,'price'));
     if(filled(p.features.referenceNumber)) container.append(el('p',displayRef(p.features.referenceNumber)));
-    const gallery = el('div'); gallery.style.cssText = 'display:flex;flex-wrap:wrap;gap:12px';
-    for (const [index,path] of p.photo_paths.entries()) { const frame=el('div'); frame.style.cssText='position:relative;overflow:hidden;border-radius:10px;width:min(100%,420px)'; const image = el('img'); image.alt = p.title; image.style.cssText='display:block;width:100%;height:280px;object-fit:cover'; frame.append(image); if(index === 0) { const ribbon=statusRibbon(p); if(ribbon) frame.append(ribbon); } gallery.append(frame); queueMicrotask(() => photo(path, image)); }
-    container.append(gallery);
+    container.append(renderGallery(p));
     const description = el('p', p.description); description.style.whiteSpace='pre-wrap'; container.append(description);
     const contact=p.websiteContact;
     renderCharacteristics(contact?{...p,features:{...p.features,representativeName:contact.name||'',representativePhone:contact.phone||'',representativeEmail:contact.email||''}}:p);
